@@ -5,14 +5,14 @@ import { UserList } from "./users";
 import { Dashboard } from "./Dashboard";
 import { authProvider } from "./authProvider";
 import { i18nProvider } from "./i18nProvider";
-
+import LoginPage from "./loginPage";
 
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 
 
 export const App = () => (
-  <Admin i18nProvider={i18nProvider} authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard}>
+  <Admin i18nProvider={i18nProvider} authProvider={authProvider} dataProvider={dataProvider} dashboard={Dashboard} loginPage={LoginPage}>
       <Resource name="posts" list={PostList} edit={PostEdit} create={PostCreate} icon={PostIcon} />
       <Resource name="users" list={UserList} show={ShowGuesser} recordRepresentation="name" icon={UserIcon} />
   </Admin>
