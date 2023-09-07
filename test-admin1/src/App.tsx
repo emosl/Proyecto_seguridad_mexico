@@ -17,9 +17,11 @@ import { i18nProvider } from "./i18nProvider";
 import { Button } from "@mui/material";
 import { MyAppBar } from "./MyAppBar";
 import {MyLoginPage} from "./MyLoginPage";
+import MyLayout from './MyLayout';
 
 export const App = () => (
   <Admin
+    layout={MyLayout}
     loginPage={MyLoginPage}
     authProvider={authProvider}
     i18nProvider={i18nProvider}
