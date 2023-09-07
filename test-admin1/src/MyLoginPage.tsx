@@ -17,7 +17,26 @@ export const MyLoginPage: (React.FC) = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <div style={
+            {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                backgroundColor: '#f5f5f5',
+                color: '#4287f5',
+            }
+        }>
+        <form onSubmit={handleSubmit}
+        style={
+            {
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',}
+        }
+        >
+            <h1>My Login Page</h1>
             <input
                 name="email"
                 type="email"
@@ -30,7 +49,10 @@ export const MyLoginPage: (React.FC) = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
+            <button  type="submit"> Login</button>
         </form>
+        </div>
+        
     );
 };
 
