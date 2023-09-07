@@ -1,0 +1,68 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add @react-admin/ra-rbac
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.17.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@react-admin%2fra-rbac: Not found
+      at params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66145:18)
+      at self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140890:22)
+      at Request.emit (node:events:514:28)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141862:10)
+      at Request.emit (node:events:514:28)
+      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:628:28)
+      at IncomingMessage.emit (node:events:526:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "test-admin1",
+    "private": true,
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "serve": "vite preview",
+      "type-check": "tsc --noEmit",
+      "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
+      "format": "prettier --write ./src"
+    },
+    "dependencies": {
+      "ra-data-json-server": "^4.13.0",
+      "react": "^18.2.0",
+      "react-admin": "^4.13.0",
+      "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+      "@typescript-eslint/parser": "^5.60.1",
+      "@typescript-eslint/eslint-plugin": "^5.60.1",
+      "@types/node": "^18.16.1",
+      "@types/react": "^18.0.22",
+      "@types/react-dom": "^18.0.7",
+      "@vitejs/plugin-react": "^4.0.1",
+      "eslint": "^8.43.0",
+      "eslint-config-prettier": "^8.8.0",
+      "eslint-plugin-react": "^7.32.2",
+      "eslint-plugin-react-hooks": "^4.6.0",
+      "prettier": "^2.8.8",
+      "typescript": "^5.1.6",
+      "vite": "^4.3.9"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
