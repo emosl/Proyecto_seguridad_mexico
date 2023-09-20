@@ -20,16 +20,17 @@ const MyLogoutButton = forwardRef((props, ref) => {
     );
 });
 
-const MyUserMenu: React.FC = () => (
+export const MyUserMenu: React.FC = () => (
     <UserMenu>
         <MyLogoutButton />
     </UserMenu>
 );
 
-const MyAppBar: React.FC = () => <AppBar userMenu={<UserMenu />} />;
+export const MyAppBar: React.FC = () => <AppBar userMenu={<UserMenu />} />;
 
 const MyLayout: React.FC = (props) => (
     <Layout {...props} appBar={MyAppBar} />
 );
 
 export default MyLayout;
+

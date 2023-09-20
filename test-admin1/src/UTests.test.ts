@@ -5,6 +5,7 @@ import {AdminContext} from "react-admin";
 import MyLayout from './MyLayout';
 import React from 'react';
 import { renderHook } from "@testing-library/react";
+import "@testing-library/jest-dom";
 
 
 describe('sum module', () => {
@@ -19,3 +20,4 @@ describe('my layout',() => {
   // fireEvent.click(screen.getByText('Click me'))
   //   expect();
 })});
+
