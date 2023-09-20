@@ -7,7 +7,9 @@ import {
   Layout,
   useRecordContext, 
   DeleteButton,
+  AdminContext, 
 } from "react-admin";
+import React from 'react';
 import { dataProvider } from "./dataProvider";
 import { UserList } from "./users";
 import { PostList, PostEdit, PostCreate } from "./posts";
@@ -20,6 +22,8 @@ import { Button } from "@mui/material";
 import { MyAppBar } from "./MyAppBar";
 import {MyLoginPage} from "./MyLoginPage";
 import MyLayout from './MyLayout';
+import { render, screen } from '@testing-library/react';
+import {describe, expect, test} from '@jest/globals';
 // import { useCanAccess } from '@react-admin/ra-rbac';
 
 export const App = () => (
@@ -72,9 +76,5 @@ export const ThemeToggler = () => {
     ); 
 };
 
-// export const DeleteUserButton = () => {
-//   const record = useRecordContext();
-//   const { isLoading, canAccess } = useCanAccess({ action: 'delete', resource: 'users', record });
-//   if (isLoading || !canAccess) return null;
-//   return <DeleteButton record={record} resource="users" />;
-// };
+
+
