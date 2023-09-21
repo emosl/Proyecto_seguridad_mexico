@@ -2,6 +2,11 @@
 node_modules/
 npm-debug.log
 
+# Ignorar archivos y carpetas relacionados con Jest
+coverage/
+jest-stare/
+jest.config.js
+
 
 # De IDE
 .idea/
