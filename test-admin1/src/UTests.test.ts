@@ -6,6 +6,13 @@ import MyLayout from './MyLayout';
 import React from 'react';
 import { renderHook } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { BrowserRouter } from "react-router-dom"; 
+
+// Mock the useLogout hook
+// jest.mock('react-admin', () => ({
+//   ...jest.requireActual('react-admin'),
+//   useLogout: jest.fn(),
+// }));
 
 
 describe('sum module', () => {
@@ -14,10 +21,16 @@ describe('sum module', () => {
   });
 });
 
-describe('my layout',() => {
-  test('Logout button', async () => {
-  // render(<MyLayout>);
-  // fireEvent.click(screen.getByText('Click me'))
-  //   expect();
-})});
+
+
+// describe("my layout", () => {
+//   it("Logout button", async () => {
+//     render(
+//       <AdminContext>
+//         <MyLayout />
+//       </AdminContext>
+//     );
+//   });
+// });
+
 
