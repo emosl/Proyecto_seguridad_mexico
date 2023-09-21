@@ -38,12 +38,14 @@ export const MyLoginPage: (React.FC) = () => {
         >
             <h1>My Login Page</h1>
             <input
+                id='input-email'
                 name="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
             <input
+                id='input-pw'
                 name="password"
                 type="password"
                 value={password}

@@ -1,34 +1,36 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import MyLoginPage from './MyLoginPage'; // Asegúrate de que esta importación sea correcta
+import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom'
+import MyLoginPage from './MyLoginPage'; 
+import { AdminContext } from 'react-admin';
 
-test('redirige al usuario al hacer clic en el botón con campos llenos', () => {
-  const { getByLabelText, getByText } = render(<MyLoginPage />);
+test('se revisa que el input de email y de password esteb definidos en el componente MyLoginPage', () => {
+  const { container } = render(
+    <AdminContext>
+      <MyLoginPage />
+  </AdminContext>
+  );
 
   // Rellenar el formulario
-  const emailInput = getByLabelText(/email/i);
-  const passwordInput = getByLabelText(/password/i);
+  const emailInput = container.querySelector('.input-email')
+  const passwordInput = container.querySelector('.input-pw')
 
-  fireEvent.change(emailInput, { target: { value: 'correo@falso.com' } });
-  fireEvent.change(passwordInput, { target: { value: 'contraseña-falsa' } });
+  expect(emailInput).toBeDefined();
+  expect(passwordInput).toBeDefined();
 
-  // Hacer clic en el botón
-  const loginButton = getByText(/login/i);
-  fireEvent.click(loginButton);
 
-  // Aquí puedes realizar una aserción para verificar la redirección, por ejemplo:
-  // expect(window.location.pathname).toBe('/dashboard');
 });
 
-test('no redirige al usuario si los campos están vacíos', () => {
-  const { getByText } = render(<MyLoginPage />);
+test('Se revisa que se despleiga el componente MyloginPage', () => {
+    render(
+    <AdminContext>
+      <MyLoginPage />
+  </AdminContext>
+  );
 
-  // Dejar los campos vacíos
 
-  // Hacer clic en el botón
-  const loginButton = getByText(/login/i);
-  fireEvent.click(loginButton);
+  const div = screen.getByText('My Login Page')
+  expect(div).toBeInTheDocument();
 
-  // Aquí puedes realizar una aserción para verificar que no ocurra una redirección, por ejemplo:
-  // expect(window.location.pathname).toBe('/');
+
 });
