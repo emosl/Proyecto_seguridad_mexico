@@ -5,7 +5,7 @@ import '@testing-library/jest-dom'
 import {MyAppBar} from './MyAppBar'; 
 import { AdminContext } from 'react-admin';
 import MyLayout from './MyLayout';
-
+import userEvent from '@testing-library/user-event'
 
 
 // describe('sum module', () => {
