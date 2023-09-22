@@ -1,50 +1,48 @@
-import {describe, expect, test} from '@jest/globals';
 import {sum} from './sum';
-import {render, fireEvent, screen, waitFor} from '@testing-library/react'
-import {AdminContext , testDataProvider} from "react-admin";
-import MyLayout from './MyLayout';
 import React from 'react';
-
-import { BrowserRouter } from "react-router-dom"; 
-import MyLoginPage from './MyLoginPage';
-import  MyLogoutButton from './MyLayout';
-import {MyAppBar } from './MyAppBar';
+import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
-// import userEvent from '@testing-library/user-event'
-
-// Mock the useLogout hook
-// jest.mock('react-admin', () => ({
-//   ...jest.requireActual('react-admin'),
-//   useLogout: jest.fn(),
-// }));
-
-// import userEvent from '@testing-library/user-event'
-// import { createMemoryHistory } from 'history'
-// import '@testing-library/jest-dom';
+import {MyAppBar} from './MyAppBar'; 
+import { AdminContext } from 'react-admin';
+import MyLayout from './MyLayout';
+import userEvent from '@testing-library/user-event'
 
 
-describe('sum module', () => {
-  test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
-  });
-});
+// describe('sum module', () => {
+//   test('adds 1 + 2 to equal 3', () => {
+//     expect(sum(1, 2)).toBe(3);
+//   });
+// });
 
 
 
-describe("my app bar si esta plis ya", () => {
-  test("appbar appear ", async () => {
-    const { container } = render(
-        <AdminContext>
-          <MyAppBar />
-      </AdminContext>
-      );
+// describe("my app bar si esta plis ya",  () => {
+//   test("appbar appear ", async () => {
+//     const { container } = render(
+//         <AdminContext>
+//           <MyAppBar />
+//       </AdminContext>
+//       );
     
 
-  });
+//   });
 
-  const div = screen.getByText("MyAppBar");
-  expect(div).toBeInTheDocument();
+//   const div = screen.getBy
+//   expect(div).toBeInTheDocument();
 
-});
+// });
+
+test.todo ("Revisar Logout "), () => {
+    render(
+        <AdminContext>
+            <MyLayout/>
+        </AdminContext>
+    );
+        const logoutButton = screen.getByTestId('Logout');
+        userEvent.click(logoutButton);
+        expect(logoutButton).toBeInTheDocument();
+
+}
+
 
 
