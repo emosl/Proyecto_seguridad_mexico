@@ -1,24 +1,11 @@
-// import {describe, expect, test} from '@jest/globals';
-// import {sum} from './sum';
-// import {render, fireEvent, screen, waitFor} from '@testing-library/react'
-// import {AdminContext , testDataProvider} from "react-admin";
-// import MyLayout from './MyLayout';
-// import React from 'react';
-// import "@testing-library/jest-dom";
-// import { BrowserRouter } from "react-router-dom"; 
-// import MyLoginPage from './MyLoginPage';
-// import  MyLogoutButton from './MyLayout';
-// // import userEvent from '@testing-library/user-event'
-
-// // Mock the useLogout hook
-// // jest.mock('react-admin', () => ({
-// //   ...jest.requireActual('react-admin'),
-// //   useLogout: jest.fn(),
-// // }));
-
-// // import userEvent from '@testing-library/user-event'
-// // import { createMemoryHistory } from 'history'
-// // import '@testing-library/jest-dom';
+import {sum} from './sum';
+import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react';
+import '@testing-library/jest-dom'
+import {MyAppBar} from './MyAppBar'; 
+import { AdminContext } from 'react-admin';
+import MyLayout from './MyLayout';
+import userEvent from '@testing-library/user-event'
 
 
 // describe('sum module', () => {
@@ -29,16 +16,33 @@
 
 
 
-// describe("my layout", () => {
-//   test("Logout button", async () => {
-//     render(
-//       <AdminContext>
-//         <MyLogoutButton />
+// describe("my app bar si esta plis ya",  () => {
+//   test("appbar appear ", async () => {
+//     const { container } = render(
+//         <AdminContext>
+//           <MyAppBar />
 //       </AdminContext>
-//     );
+//       );
+    
 
 //   });
 
+//   const div = screen.getBy
+//   expect(div).toBeInTheDocument();
+
 // });
+
+test.todo ("Revisar Logout "), () => {
+    render(
+        <AdminContext>
+            <MyLayout/>
+        </AdminContext>
+    );
+        const logoutButton = screen.getByTestId('Logout');
+        userEvent.click(logoutButton);
+        expect(logoutButton).toBeInTheDocument();
+
+}
+
 
 
