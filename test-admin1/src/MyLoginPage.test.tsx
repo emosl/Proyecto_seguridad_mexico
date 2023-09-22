@@ -3,6 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import MyLoginPage from './MyLoginPage'; 
 import { AdminContext } from 'react-admin';
+import MyUrlField from './MyUrlField';
 
 test('se revisa que el input de email y de password esten definidos en el componente MyLoginPage', () => {
   const { container } = render(
@@ -33,4 +34,15 @@ test('Se revisa que se despleiga el componente MyloginPage', () => {
   expect(div).toBeInTheDocument();
 
 
+});
+
+test("Se verifica que el componente URL field este bien definido", () => {
+  const { container } = render(
+    <AdminContext>
+      <MyUrlField source="titulo"/>
+  </AdminContext>
+  );
+
+  const link = container.querySelector('#link')
+  expect(link).toBeDefined();
 });
