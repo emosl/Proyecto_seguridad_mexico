@@ -1,0 +1,17 @@
+{
+  "name": "data_base",
+  "version": "1.0.0",
+  "description": "",
+  "main": "database_act.js",
+  "type" : "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "mongodb": "^6.1.0",
+    "path": "^0.12.7"
+  }
+}

@@ -7,7 +7,8 @@ import {
   Layout,
   useRecordContext, 
   DeleteButton,
-  AdminContext, 
+  AdminContext,
+  ListGuesser 
 } from "react-admin";
 import React from 'react';
 import { dataProvider } from "./dataProvider";
@@ -36,6 +37,7 @@ export const App = () => (
     dashboard={Dashboard}
     darkTheme={{ palette: { mode: "dark" } }}
   >
+    <Resource name="tickets" list={ListGuesser} />
     <Resource
       name="posts"
       list={PostList}
