@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import MyLoginPage from '../MyLoginPage'; 
+import MyLoginPage from '../components/MyLoginPage'; 
 import { AdminContext } from 'react-admin';
 
 
