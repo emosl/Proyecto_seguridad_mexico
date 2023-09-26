@@ -2,9 +2,9 @@ import {sum} from './sum';
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import {MyAppBar} from './MyAppBar'; 
+import {MyAppBar} from '../MyAppBar'; 
 import { AdminContext } from 'react-admin';
-import MyLayout from './MyLayout';
+import MyLayout from '../MyLayout';
 import userEvent from '@testing-library/user-event'
 
 
