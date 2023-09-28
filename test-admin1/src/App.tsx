@@ -21,7 +21,8 @@ import { authProvider } from "./authProvider";
 import { i18nProvider } from "./i18nProvider";
 import { Button } from "@mui/material";
 import { MyAppBar } from "./components/MyAppBar";
-import {MyLoginPage} from "./components/MyLoginPage";
+//import {MyLoginPage} from "./components/MyLoginPage";
+import Login from "./components/Login"
 import MyLayout from './MyLayout';
 import { render, screen } from '@testing-library/react';
 import {describe, expect, test} from '@jest/globals';
@@ -30,7 +31,7 @@ import {describe, expect, test} from '@jest/globals';
 export const App = () => (
   <Admin
     layout={MyLayout}
-    loginPage={MyLoginPage}
+    loginPage={Login}
     authProvider={authProvider}
     i18nProvider={i18nProvider}
     dataProvider={dataProvider}

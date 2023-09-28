@@ -8,7 +8,7 @@ Este es el README para el proyecto de la Fundación Por México, que tiene como 
 - [Fernanda Osorio](https://github.com/FerOsorio08)
 - [Emilia Salazar](https://github.com/emosl)
 - [Ian Holender](https://github.com/IanHolen)
-- [Rafael Blanga]()
+- Rafael Blanga
 
 ## Menú de Navegación
 
@@ -46,17 +46,20 @@ La Fundación Por México se enfrenta a varios desafíos en la gestión de sus a
 La solución propuesta es desarrollar una plataforma de gestión de tickets que permita a los usuarios notificar problemas o incidentes en las aulas. La plataforma se dividirá en tres roles principales: Coordinador de Aula, Coordinador Nacional y Ejecutivo. Cada uno de estos roles tiene funciones específicas:
 
 ### Coordinador de Aula
+
 - Notifica incidentes mediante tickets con información detallada.
 - Tiene la capacidad de crear tickets y hacer seguimiento de los tickets que ha creado.
 - Puede ver los tickets resueltos por el Coordinador Nacional.
 
 ### Coordinador Nacional
+
 - Recibe notificaciones sobre los tickets.
 - Puede ver todos los tickets creados por los Coordinadores de Aula.
 - Tiene la capacidad de marcar los tickets como resueltos.
 - Recibe reportes semanales con métricas específicas para la toma de decisiones.
 
 ### Ejecutivo
+
 - Recibe reportes semanales que resumen los tickets e incidentes reportados durante la semana.
 - Los reportes incluyen estadísticas básicas como promedios, frecuencias y otros datos relevantes.
 - Se destacan el aula con más incidentes y las categorías de incidentes más frecuentes.
@@ -67,12 +70,15 @@ La solución propuesta es desarrollar una plataforma de gestión de tickets que 
 El proyecto está estructurado en las siguientes carpetas:
 
 ### Backend
+
 - Contiene los archivos relacionados con la lógica del servidor y la base de datos.
 
 ### Test-admin1
+
 - Contiene archivos relacionados con la interfaz de usuario y la lógica del cliente.
 
 ### Documentación Adicional
+
 - Se recomienda consultar la documentación dentro de cada carpeta para obtener detalles específicos sobre la implementación y el funcionamiento del proyecto.
 
 ## Instrucciones de Uso
@@ -93,7 +99,6 @@ Para comenzar a utilizar el sistema de gestión de tickets, siga los siguientes 
    - Abra la interfaz de usuario ejecutando la aplicación en la carpeta test-admin1.
    - Siga las instrucciones proporcionadas en la documentación de la interfaz para comenzar a utilizar el sistema de gestión de tickets.
 
-
 ## Tecnologías Utilizadas
 
 - [Node.js](https://nodejs.org/es/)
@@ -102,7 +107,3 @@ Para comenzar a utilizar el sistema de gestión de tickets, siga los siguientes 
 - [TypeScript](https://www.typescriptlang.org/)
 - [Material-UI](https://material-ui.com/es/)
 - [Babel](https://babeljs.io/)
-
-
-
-
