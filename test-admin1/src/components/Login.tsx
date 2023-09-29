@@ -21,7 +21,7 @@ export const Login: (React.FC) = () => {
         transform: 'translate(-50%, -50%)',
         
     };
-    const avatarStyle = { backgroundColor: '#1bbd7e' };
+    const avatarStyle = { backgroundColor: '#69B035' };
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
@@ -42,7 +42,7 @@ export const Login: (React.FC) = () => {
                 <Paper elevation={10} style={paperStyle}>
                     <Grid container direction="column" justifyContent="center" alignItems="center">
                         <Avatar style={avatarStyle}><AccountCircleIcon /></Avatar>
-                        <h2>Sign In</h2>
+                        <h2>Iniciar sesión</h2>
                         <form onSubmit={handleSubmit}>
                             <TextField
                                 label="Username"
@@ -52,6 +52,8 @@ export const Login: (React.FC) = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 style = {{marginBottom: '10px', borderRadius: '20px'}}
+                                InputProps={{ sx: { borderRadius: 3 } }}
+
                                 
                             />
                             <TextField
@@ -63,6 +65,7 @@ export const Login: (React.FC) = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 style = {{borderRadius: '10px'}}
+                                InputProps={{ sx: { borderRadius: 3 } }}
                             />
                             <FormControlLabel
                                 control={
@@ -75,15 +78,20 @@ export const Login: (React.FC) = () => {
                                 }
                                 label="Remember me"
                             />
-                            <Button type="submit" color="primary" variant="contained" fullWidth>
-                                <Typography>Sign in</Typography>
+                            <Button
+                            type="submit"
+                            variant="contained" 
+                            style={{ borderRadius: 10 , color: "#000000", backgroundColor: "#69B035"}}
+                            fullWidth
+                            >
+                            <Typography>Iniciar sesión</Typography>
                             </Button>
                         </form>
                         <Typography>
-                            <Link to={''}>Forgot Password?</Link>
+                            <Link to={''}>¿Olvidaste tu contraseña?</Link>
                         </Typography>
                         <Typography>
-                            Do you have an account? <Link to={''}>Sign Up</Link>
+                            No tienes cuenta? <Link to={''}>Registrarse</Link>
                         </Typography>
                     </Grid>
                 </Paper>
