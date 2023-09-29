@@ -4,7 +4,8 @@ import Paper, { PaperProps } from '@mui/material/Paper';
 import { useLogin, useNotify, Button, Link } from 'react-admin';
 import { Avatar, FormControlLabel, Grid, TextField, Checkbox, Typography, Box } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import logo from '../assets/logo.jpg';
+import "./App.css"
+import backgroundImage from '../assets/654730.jpg';
 
 export const Login: (React.FC) = () => {
     const login = useLogin();
@@ -15,13 +16,26 @@ export const Login: (React.FC) = () => {
         margin: '20px auto',
         position: 'absolute',
         top: '50%',
-        left: '25%',
+        left: '50%',
         borderRadius: '20px',
         boxShadow: '10px 20px 25px -5px rgba(0,0,0,0.75)',
         transform: 'translate(-50%, -50%)',
+        backgroundColor: '#170212',
         
     };
-    const avatarStyle = { backgroundColor: '#69B035' };
+    
+
+    const gridStyle = {
+        backgroundImage: `url(${backgroundImage})`,// Ruta a la imagen de fondo en la carpeta "assets"
+        backgroundSize: 'cover', // Establece el color de fondo del Grid aquí
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      };
+
+    const avatarStyle = { backgroundColor: '#F5494C' };
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
@@ -37,9 +51,9 @@ export const Login: (React.FC) = () => {
     };
     
     return (
-        <Grid container>
+        <Grid container style={gridStyle} >
             <Grid item xs={6}>
-                <Paper elevation={10} style={paperStyle}>
+                <Paper elevation={10} style={paperStyle} >
                     <Grid container direction="column" justifyContent="center" alignItems="center">
                         <Avatar style={avatarStyle}><AccountCircleIcon /></Avatar>
                         <h2>Iniciar sesión</h2>
@@ -51,7 +65,12 @@ export const Login: (React.FC) = () => {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                style = {{marginBottom: '10px', borderRadius: '20px', height: 'auto'}}
+                                style = {{
+                                        marginBottom: '10px', 
+                                        borderRadius: '20px', 
+                                        padding: '2px', 
+                                        fontSize: '12px'
+                                    }}
                                 InputProps={{ sx: { borderRadius: 3 } }}
 
                                 
@@ -64,7 +83,11 @@ export const Login: (React.FC) = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                style = {{borderRadius: '10px', height: 'auto'}}
+                                style = {{
+                                        borderRadius: '10px',
+                                        padding: '2px'
+                                     
+                                    }}
                                 InputProps={{ sx: { borderRadius: 3 } }}
                             />
                             <FormControlLabel
@@ -81,17 +104,18 @@ export const Login: (React.FC) = () => {
                             <Button
                             type="submit"
                             variant="contained" 
-                            style={{ borderRadius: 10 , color: "#000000", backgroundColor: "#69B035"}}
+                            style={{ borderRadius: 10 , color: "#000000", backgroundColor: "#F5494C", marginBottom: '10px',}}
                             fullWidth
                             >
                             <Typography>Iniciar sesión</Typography>
                             </Button>
                         </form>
+                        <Typography style={{ marginBottom: '10px' }}>
+                            <Link to={''} >¿Olvidaste tu contraseña?</Link>
+                            
+                        </Typography >
                         <Typography>
-                            <Link to={''}>¿Olvidaste tu contraseña?</Link>
-                        </Typography>
-                        <Typography>
-                            No tienes cuenta? <Link to={''}>Registrarse</Link>
+                            ¿No tienes cuenta? <Link to={''}>Registrarse</Link>
                         </Typography>
                     </Grid>
                 </Paper>
