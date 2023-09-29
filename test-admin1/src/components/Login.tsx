@@ -51,7 +51,7 @@ export const Login: (React.FC) = () => {
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                style = {{marginBottom: '10px', borderRadius: '20px'}}
+                                style = {{marginBottom: '10px', borderRadius: '20px', height: 'auto'}}
                                 InputProps={{ sx: { borderRadius: 3 } }}
 
                                 
@@ -64,7 +64,7 @@ export const Login: (React.FC) = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                style = {{borderRadius: '10px'}}
+                                style = {{borderRadius: '10px', height: 'auto'}}
                                 InputProps={{ sx: { borderRadius: 3 } }}
                             />
                             <FormControlLabel
