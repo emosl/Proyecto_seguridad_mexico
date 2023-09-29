@@ -4,7 +4,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import {MyAppBar} from '../components/MyAppBar'; 
 import { AdminContext } from 'react-admin';
-import MyLayout from '../MyLayout';
+import MyLayout from '../Layout/MyLayout';
 import userEvent from '@testing-library/user-event'
 
 

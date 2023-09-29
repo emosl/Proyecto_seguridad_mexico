@@ -11,19 +11,19 @@ import {
   ListGuesser 
 } from "react-admin";
 import React from 'react';
-import { dataProvider } from "./dataProvider";
-import { UserList } from "./users";
+import { dataProvider } from "./Providers/dataProvider";
+import { UserList } from "./Pages/users";
 import { PostList, PostEdit, PostCreate } from "./posts";
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
-import { Dashboard } from "./Dashboard";
-import { authProvider } from "./authProvider";
-import { i18nProvider } from "./i18nProvider";
+import { Dashboard } from "./Pages/Dashboard";
+import { authProvider } from "./Providers/authProvider";
+import { i18nProvider } from "./Providers/i18nProvider";
 import { Button } from "@mui/material";
 import { MyAppBar } from "./components/MyAppBar";
 //import {MyLoginPage} from "./components/MyLoginPage";
-import Login from "./components/Login"
-import MyLayout from './MyLayout';
+import Login from "./Pages/Login"
+import MyLayout from './Layout/MyLayout';
 import { render, screen } from '@testing-library/react';
 import {describe, expect, test} from '@jest/globals';
 // import { useCanAccess } from '@react-admin/ra-rbac';
