@@ -1,0 +1,68 @@
+/*Animación de onda de fondo*/
+
+@keyframes backgroundWave {
+    0% {
+      background-color: #33FFFF;
+    }
+    25% {
+      background-color: #33FF57;
+    }
+    50% {
+      background-color: #5733FF;
+    }
+    75% {
+      background-color: #FFFF33;
+    }
+    100% {
+      background-color: #33FFFF;
+    }
+  }
+  
+  .wave-animation {
+    animation: backgroundWave 100s linear infinite; /* Cambia la duración y el tiempo según tus preferencias */
+  }
+  
+  /* CSS para crear círculos */
+@keyframes moveCircles {
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(50vw, 0);
+    }
+    50% {
+      transform: translate(100vw, 0);
+    }
+    75% {
+      transform: translate(50vw, 100vh);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  
+  .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff; /* Color de los círculos */
+    position: absolute;
+    animation: moveCircles 10s linear infinite; /* Ajusta la duración y el tiempo según tus preferencias */
+  }
+  
+  /* Estilo de los círculos */
+  .circle1 {
+    left: 10%;
+    top: 20%;
+  }
+  
+  .circle2 {
+    left: 30%;
+    top: 40%;
+  }
+  
+  .circle3 {
+    left: 50%;
+    top: 60%;
+  }
+  
