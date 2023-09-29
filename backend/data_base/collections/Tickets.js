@@ -2,7 +2,7 @@
     {
       "id": 4,
       "usuario": "chamito813",
-      "contrasena": "$2b$10$5eNKgLWBue28U6GDAGvnM.gF86LWTnm.IX0sMAyL5lPMCTgEwZ5yq",
+      "contrasena": "1234",
       "nombre": "Samuel",
       "apellidoPaterno": "Acevedo",
       "apellidoMaterno": "Sandoval",
@@ -11,6 +11,7 @@
     {
         "id": 5,
         "usuario": "chamito813",
+        "contrasena": "1234",
         "nombre": "Samuel",
         "apellidoMaterno": "Sandoval",
         "apellidoPaterno": "Acevedo",
@@ -19,7 +20,7 @@
     {
       "id": 6,
       "usuario": "Martin",
-      "contrasena": "",
+      "contrasena":"1234",
       "nombre": "Martin",
       "apellidoMaterno": "Garcia",
       "apellidoPaterno": "Palomares",

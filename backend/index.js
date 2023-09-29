@@ -18,29 +18,30 @@ async function  connectDB(){
     console.log("Database connected.");
 }
 
-// Endpoint to login Frontend
-app.post("/login", async (req, res) => {
+// Agrega el middleware body-parser
+app.use(bodyParser.json());
 
-  let usuario = req.body.usuario;
-  let contrasena = req.body.contrasena;
-  let data = await db.collection("Usuarios").find({"usuario": usuario}).project({_id:0}).toArray();
-  if (data.length == 0){
-    res.json({"error": "Usuario no encontrado."});
+// Define el endpoint de login
+app.post('/login', async (req, res) => {
+  // Recibe las credenciales del usuario
+  const usuario = req.body.usuario;
+  const contrasena = req.body.contrasena;
 
-  }
-  else{
-    bcrypt.compare(contrasena, data[0].contrasena, (err, result) => {
-      if (result){
-        let token  = makeNewToken(data.usuario);
-        response.json({"token": token, "usuario": data.usuario,  "nombre": data.nombre, rol: data.rol}) 
-      }
-      else{
-        response.sendStatus(401)
-      }
-    });
+  // Consulta la base de datos para ver si el usuario existe y la contraseña es correcta
+  const user = await db.collection('usuarios').findOne({ usuario });
+
+  // Si el usuario existe y la contraseña es correcta, devuelve un token JSON
+  if (user && user.contrasena === contrasena) {
+    // Genera un nuevo token
+    const token = jwt.sign({ usuario }, 'secret');
+
+    // Devuelve el token
+    res.send({ token });
+  } else {
+    // Si el usuario no existe o la contraseña es incorrecta, devuelve un error
+    res.status(401).send({ error: 'Usuario o contraseña incorrectos' });
   }
 });
-
 
 
 
