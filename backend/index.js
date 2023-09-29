@@ -18,6 +18,35 @@ async function  connectDB(){
     console.log("Database connected.");
 }
 
+// Endpoint to login Frontend
+app.post("/login", async (req, res) => {
+
+  let usuario = req.body.usuario;
+  let contrasena = req.body.contrasena;
+  let data = await db.collection("Usuarios").find({"usuario": usuario}).project({_id:0}).toArray();
+  if (data.length == 0){
+    res.json({"error": "Usuario no encontrado."});
+
+  }
+  else{
+    bcrypt.compare(contrasena, data[0].contrasena, (err, result) => {
+      if (result){
+        let token  = makeNewToken(data.usuario);
+        response.json({"token": token, "usuario": data.usuario,  "nombre": data.nombre, rol: data.rol}) 
+      }
+      else{
+        response.sendStatus(401)
+      }
+    });
+  }
+});
+
+
+
+
+
+
+
 app.get("/test", async(req, res) => {
     let data = await db.collection("test").find({}).project({_id:0,id:1,nombre:1,materia:1}).toArray();
     res.set('Access-Control-Expose-Headers', 'X-Total-Count')
