@@ -10,6 +10,8 @@ import backgroundImage from '../assets/654730.jpg';
 export const Login: (React.FC) = () => {
     const login = useLogin();
     const notify = useNotify();
+
+    // Estilo del paper
     const paperStyle: PaperProps['style'] = {
         padding: 20,
         width: 280,
@@ -24,32 +26,37 @@ export const Login: (React.FC) = () => {
         
     };
     
-
+    // Estilo del grid
     const gridStyle = {
-        backgroundImage: `url(${backgroundImage})`,// Ruta a la imagen de fondo en la carpeta "assets"
-        backgroundSize: 'cover', // Establece el color de fondo del Grid aquí
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover', 
         height: '100vh',
         width: '100vw',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
       };
-
+    
+    // Estilo del avatar
     const avatarStyle = { backgroundColor: '#F5494C' };
+
+    // Componentes de email, password y rememberMe
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     
     
-    
+    // Función para el submit
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // will call authProvider.login({ email, password })
+        
+        // Llama a la función login de react-admin
         login({ email, password }).catch(() =>
             notify('Invalid email or password')
         );
     };
     
+    // Retorna el formulario
     return (
         <Grid container style={gridStyle} >
             <Grid item xs={6}>
@@ -101,6 +108,7 @@ export const Login: (React.FC) = () => {
                                 }
                                 label="Remember me"
                             />
+                            
                             <Button
                             type="submit"
                             variant="contained" 
