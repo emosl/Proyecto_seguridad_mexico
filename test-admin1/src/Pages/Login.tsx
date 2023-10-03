@@ -47,7 +47,7 @@ export const Login: (React.FC) = () => {
     
     
     // Función para el submit
-    const handleSubmit = (e: React.FormEvent) => {
+const handleSubmit =  (e: React.FormEvent) => {
         e.preventDefault();
         
         // Llama a la función login de react-admin

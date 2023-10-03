@@ -10,6 +10,7 @@ export const authProvider: AuthProvider = {
         });
         try {
             const response = await fetch(request);
+            console.log(response);
             if (response.status < 200 || response.status >= 300) {
                 throw new Error(response.statusText);
             }

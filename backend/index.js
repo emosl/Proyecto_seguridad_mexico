@@ -17,32 +17,33 @@ async function  connectDB(){
     console.log("Database connected.");
 }
 
-async function log(sujeto, accion, objeto){
-  toLog={}
-  toLog["timestamp"]=new Date();
-  toLog["sujeto"]=sujeto;
-  toLog["accion"]=accion;
-  toLog["objeto"]=objeto;
-  await db.collection("log").insertOne(toLog);
-}
+// async function log(sujeto, accion, objeto){
+//   toLog={}
+//   toLog["timestamp"]=new Date();
+//   toLog["sujeto"]=sujeto;
+//   toLog["accion"]=accion;
+//   toLog["objeto"]=objeto;
+//   await db.collection("log").insertOne(toLog);
+// }
 
 
 // Define el endpoint de login
 app.post('/login', async (req, res) => {
   // Recibe las credenciales del usuario
-    let user=request.body.usuario;
-    let pass=request.body.contraseña;
+    let user=req.body.usuario;
+    let pass=req.body.contraseña;
     let data= await db.collection("Tickets").findOne({"usuario": user});
     if(data==null){
-        response.sendStatus(401);
+        res.sendStatus(401);
     }else{
+      console.log(data.contraseña);
         bcrypt.compare(pass, data.contraseña, (error, result)=>{
             if(result){
                 let token=jwt.sign({"usuario": data.usuario}, "secretKey", {expiresIn: 600});
-                log(user, "login", "");
-                response.json({"token": token, "usuario": data.usuario, "nombre": data.nombre})
+                // log(user, "login", "");
+                res.json({"token": token, "usuario": data.usuario, "nombre": data.nombre})
             }else{
-                response.sendStatus(401)
+                res.sendStatus(401)
             }
         })
     }
