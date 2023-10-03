@@ -30,17 +30,17 @@ async function log(sujeto, accion, objeto){
 // Define el endpoint de login
 app.post('/login', async (req, res) => {
   // Recibe las credenciales del usuario
-  let user=request.body.usuario;
+    let user=request.body.usuario;
     let pass=request.body.contraseña;
-    let data= await db.collection("usuarios").findOne({"usuario": user});
+    let data= await db.collection("Tickets").findOne({"usuario": user});
     if(data==null){
         response.sendStatus(401);
     }else{
         bcrypt.compare(pass, data.contraseña, (error, result)=>{
             if(result){
-                let token=jwt.sign({usuario: data.usuario}, "secretKey", {expiresIn: 600});
+                let token=jwt.sign({"usuario": data.usuario}, "secretKey", {expiresIn: 600});
                 log(user, "login", "");
-                response.json({"token": token, "id": data.usuario, "nombre": data.nombre})
+                response.json({"token": token, "usuario": data.usuario, "nombre": data.nombre})
             }else{
                 response.sendStatus(401)
             }
