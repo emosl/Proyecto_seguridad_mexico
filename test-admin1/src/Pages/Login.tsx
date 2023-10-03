@@ -51,7 +51,7 @@ const handleSubmit =  (e: React.FormEvent) => {
         e.preventDefault();
         
         // Llama a la función login de react-admin
-        login({ email, password }).catch(() =>
+        login({ username: email, password }).catch(() =>
             notify('Invalid email or password')
         );
     };
