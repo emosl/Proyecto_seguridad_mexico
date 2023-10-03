@@ -22,13 +22,9 @@ export const authProvider: AuthProvider = {
     },
     // called when the user navigates to a new location, to check for authentication
     checkAuth: () => {
-        const currentPath = window.location.pathname;
-        if (currentPath == '/SignUp') {
-            return Promise.resolve();
-        }
-        else{
-            return localStorage.getItem("username")? Promise.resolve(): Promise.reject();
-        }
+        return localStorage.getItem("username")
+            ? Promise.resolve()
+            : Promise.reject();
     },
     // called when the user navigates to a new location, to check for permissions / roles
     getPermissions: () => Promise.resolve(),
