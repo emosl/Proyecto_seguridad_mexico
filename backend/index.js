@@ -40,8 +40,6 @@ app.post("/login", async (req, res) => {
     bcrypt.genSalt(10, (error, salt) => {
       bcrypt.hash(pass, salt, async (error, hash) => {
         bcrypt.compare(pass, data.contraseña, (error, result) => {
-          console.log("hash", result);
-            console.log("data", data.contraseña);
             if (result) {
             let token = jwt.sign({ usuario: data.usuario }, "secretKey", {
               expiresIn: 600,
@@ -58,8 +56,6 @@ app.post("/login", async (req, res) => {
         });
       });
     });
-    console.log(data.contraseña);
-    console.log(pass);
   }
 });
 
