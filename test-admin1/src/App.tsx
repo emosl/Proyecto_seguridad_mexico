@@ -8,7 +8,8 @@ import {
   useRecordContext, 
   DeleteButton,
   AdminContext,
-  ListGuesser 
+  ListGuesser,
+  CustomRoutes
 } from "react-admin";
 import React from 'react';
 import { dataProvider } from "./Providers/dataProvider";
@@ -26,6 +27,9 @@ import Login from "./Pages/Login"
 import MyLayout from './Layout/MyLayout';
 import { render, screen } from '@testing-library/react';
 import {describe, expect, test} from '@jest/globals';
+import SignUp from "./Pages/SignUp";
+import { Route } from 'react-router-dom';
+
 // import { useCanAccess } from '@react-admin/ra-rbac';
 
 export const App = () => (
@@ -66,6 +70,10 @@ export const App = () => (
       recordRepresentation="name"
       icon={UserIcon}
     />
+    <CustomRoutes noLayout>
+      <Route path="/SignUp" element = {<SignUp />} />
+           
+    </CustomRoutes>
   </Admin>
 );
 
