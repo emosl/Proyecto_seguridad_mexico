@@ -123,7 +123,7 @@ export const Login: (React.FC) = () => {
                             
                         </Typography >
                         <Typography>
-                            ¿No tienes cuenta? <Link to={''}>Registrarse</Link>
+                            ¿No tienes cuenta? <Link to={'/SignUp'}>Registrarse</Link>
                         </Typography>
                     </Grid>
                 </Paper>

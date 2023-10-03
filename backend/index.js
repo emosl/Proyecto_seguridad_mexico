@@ -18,6 +18,8 @@ async function  connectDB(){
     console.log("Database connected.");
 }
 
+
+
 // Agrega el middleware body-parser
 app.use(bodyParser.json());
 
