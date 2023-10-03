@@ -47,11 +47,15 @@ export const Login: (React.FC) = () => {
     
     
     // Función para el submit
-    const handleSubmit = (e: React.FormEvent) => {
+const handleSubmit =  (e: React.FormEvent) => {
         e.preventDefault();
         
         // Llama a la función login de react-admin
-        login({ email, password }).catch(() =>
+        login({ username: email, password }).then(()=>
+        // navigate('/admin')
+        window.location.href = '/tickets'
+        )
+        .catch(() =>
             notify('Invalid email or password')
         );
     };
