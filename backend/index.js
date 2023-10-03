@@ -5,11 +5,10 @@ import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-
-
 let db; 
 const app = express(); // create express app, executes functions 
 app.use(cors());
+app.use(bodyParser.json());
 
 async function  connectDB(){
     let client = new MongoClient("mongodb://localhost:27017/ticket_system");
@@ -18,30 +17,59 @@ async function  connectDB(){
     console.log("Database connected.");
 }
 
-// Agrega el middleware body-parser
-app.use(bodyParser.json());
+async function log(sujeto, accion, objeto){
+  toLog={}
+  toLog["timestamp"]=new Date();
+  toLog["sujeto"]=sujeto;
+  toLog["accion"]=accion;
+  toLog["objeto"]=objeto;
+  await db.collection("log").insertOne(toLog);
+}
+
 
 // Define el endpoint de login
 app.post('/login', async (req, res) => {
   // Recibe las credenciales del usuario
-  const usuario = req.body.usuario;
-  const contrasena = req.body.contrasena;
-
-  // Consulta la base de datos para ver si el usuario existe y la contraseña es correcta
-  const user = await db.collection('usuarios').findOne({ usuario });
-
-  // Si el usuario existe y la contraseña es correcta, devuelve un token JSON
-  if (user && user.contrasena === contrasena) {
-    // Genera un nuevo token
-    const token = jwt.sign({ usuario }, 'secret');
-
-    // Devuelve el token
-    res.send({ token });
-  } else {
-    // Si el usuario no existe o la contraseña es incorrecta, devuelve un error
-    res.status(401).send({ error: 'Usuario o contraseña incorrectos' });
-  }
+  let user=request.body.usuario;
+    let pass=request.body.contraseña;
+    let data= await db.collection("usuarios").findOne({"usuario": user});
+    if(data==null){
+        response.sendStatus(401);
+    }else{
+        bcrypt.compare(pass, data.contraseña, (error, result)=>{
+            if(result){
+                let token=jwt.sign({usuario: data.usuario}, "secretKey", {expiresIn: 600});
+                log(user, "login", "");
+                response.json({"token": token, "id": data.usuario, "nombre": data.nombre})
+            }else{
+                response.sendStatus(401)
+            }
+        })
+    }
 });
+
+app.post("/registrarse", async(request, response)=>{
+  let user=request.body.usuario;
+  let pass=request.body.contraseña;
+  let fname=request.body.nombre;
+  console.log(request.body)
+  let data= await db.collection("Tickets").findOne({"usuario": user});
+  if(data==null){
+      try{
+          bcrypt.genSalt(10, (error, salt)=>{
+              bcrypt.hash(pass, salt, async(error, hash)=>{
+                  let usuarioAgregar={"usuario": user, "contraseña": hash, "nombre": fname};
+                  data= await db.collection("Tickets").insertOne(usuarioAgregar);
+                  response.sendStatus(201);
+              })
+          })
+      }catch{
+          response.sendStatus(401);
+      }
+  }else{
+      response.sendStatus(401)
+  }
+})
 
 
 
