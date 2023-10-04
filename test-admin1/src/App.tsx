@@ -14,6 +14,7 @@ import React from 'react';
 import { dataProvider } from "./Providers/dataProvider";
 import { UserList } from "./Pages/users";
 import { PostList, PostEdit, PostCreate } from "./posts";
+import { TicketsCreate } from "./Pages/tickets";
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 import { Dashboard } from "./Pages/Dashboard";
@@ -38,20 +39,24 @@ export const App = () => (
     dashboard={Dashboard}
     darkTheme={{ palette: { mode: "dark" } }}
   >
-    <Resource name="tickets" list={ListGuesser} />
-    <Resource
+    <Resource name="tickets" 
+    create={TicketsCreate}
+    list={ListGuesser}
+     />
+    {/* <Resource
       name="posts"
       list={PostList}
       edit={PostEdit}
       create={PostCreate}
-    />
-    <Resource name="users" list={UserList} />
+    /> */}
+    
+    {/* <Resource name="users" list={UserList} />
     <Resource
       name="users"
       list={UserList}
       show={ShowGuesser}
       recordRepresentation="name"
-    />
+    /> */}
     <Resource
       name="posts"
       list={PostList}
