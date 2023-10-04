@@ -118,45 +118,14 @@ app.listen(8000, () => {
 
 //getList, getMany, getManyReference
 app.get("/tickets", async (request, response) => {
-  if ("_sort" in request.query) {
-    let sortBy = request.query._sort;
-    let sortOrder = request.query._order == "ASC" ? 1 : -1;
-    let start = Number(request.query._start);
-    let end = Number(request.query._end);
-    let sorter = {};
-    sorter[sortBy] = sortOrder;
-    let data = await db
-      .collection("Tickets")
-      .find({})
-      .sort(sorter)
-      .project({ _id: 0 })
-      .toArray();
-    response.set("Access-Control-Expose-Headers", "X-Total-Count");
-    response.set("X-Total-Count", data.length);
-    data = data.slice(start, end);
-    response.json(data);
-  } else if ("id" in request.query) {
-    let data = [];
-    for (let index = 0; index < request.query.id.length; index++) {
-      let dataObtain = await db
-        .collection("Tickets")
-        .find({ id: Number(request.query.id[index]) })
-        .project({ _id: 0 })
-        .toArray();
-      data = await data.concat(dataObtain);
-    }
-    response.json(data);
-  } else {
-    let data = [];
-    data = await db
-      .collection("Tickets")
-      .find(request.query)
-      .project({ _id: 0 })
-      .toArray();
-    response.set("Access-Control-Expose-Headers", "X-Total-Count");
-    response.set("X-Total-Count", data.length);
-    response.json(data);
-  }
+  let data = await db
+    .collection("Tickets")
+    .find({})
+    .project({ _id: 0 })
+    .toArray();
+  response.set("Access-Control-Expose-Headers", "X-Total-Count");
+  response.set("X-Total-Count", data.length);
+  response.json(data);
 });
 
 //getOne
