@@ -39,7 +39,7 @@ app.post("/login", async (req, res) => {
   console.log(req.body);
   let user = req.body.usuario;
   let pass = req.body.contraseña;
-  let data = await db.collection("Tickets").findOne({ usuario: user });
+  let data = await db.collection("Users").findOne({ usuario: user });
   console.log(data);
   if (data == null) {
     res.sendStatus(401);
@@ -71,7 +71,7 @@ app.post("/registrarse", async (request, response) => {
   let pass = request.body.contraseña;
   let fname = request.body.nombre;
   console.log(request.body);
-  let data = await db.collection("Tickets").findOne({ usuario: user });
+  let data = await db.collection("Users").findOne({ usuario: user });
   if (data == null) {
     try {
       bcrypt.genSalt(10, (error, salt) => {
@@ -81,7 +81,7 @@ app.post("/registrarse", async (request, response) => {
             contraseña: hash,
             nombre: fname,
           };
-          data = await db.collection("Tickets").insertOne(usuarioAgregar);
+          data = await db.collection("Users").insertOne(usuarioAgregar);
           response.sendStatus(201);
         });
       });

@@ -27,6 +27,7 @@ import Login from "./Pages/Login"
 import MyLayout from './Layout/MyLayout';
 import { render, screen } from '@testing-library/react';
 import {describe, expect, test} from '@jest/globals';
+
 // import { useCanAccess } from '@react-admin/ra-rbac';
 
 export const App = () => (
@@ -43,20 +44,7 @@ export const App = () => (
     create={TicketsCreate}
     list={ListGuesser}
      />
-    {/* <Resource
-      name="posts"
-      list={PostList}
-      edit={PostEdit}
-      create={PostCreate}
-    /> */}
-    
-    {/* <Resource name="users" list={UserList} />
-    <Resource
-      name="users"
-      list={UserList}
-      show={ShowGuesser}
-      recordRepresentation="name"
-    /> */}
+     
     <Resource
       name="posts"
       list={PostList}
