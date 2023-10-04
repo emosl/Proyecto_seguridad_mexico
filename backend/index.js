@@ -5,8 +5,15 @@ import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+// let db;
+// const app = express(); // create express app, executes functions
+// app.use(cors());
+// app.use(bodyParser.json());
+
+
+
 let db;
-const app = express(); // create express app, executes functions
+const app=express();
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -18,12 +25,12 @@ async function connectDB() {
 }
 
 // async function log(sujeto, accion, objeto){
-//   toLog={}
-//   toLog["timestamp"]=new Date();
-//   toLog["sujeto"]=sujeto;
-//   toLog["accion"]=accion;
-//   toLog["objeto"]=objeto;
-//   await db.collection("log").insertOne(toLog);
+//   log={};
+//   log["timestamp"]=new Date();
+//   log["sujeto"]=sujeto;
+//   log["accion"]=accion;
+//   log["objeto"]=objeto;
+//   await db.collection("Tickets").insertOne(log);
 // }
 
 // Define el endpoint de login
