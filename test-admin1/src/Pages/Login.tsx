@@ -7,6 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import "./App.css"
 import backgroundImage from '../assets/654730.jpg';
 
+
 export const Login: (React.FC) = () => {
     const login = useLogin();
     const notify = useNotify();
@@ -51,7 +52,7 @@ const handleSubmit =  (e: React.FormEvent) => {
         e.preventDefault();
         
         // Llama a la función login de react-admin
-        login({ username: email, password }).then(()=>
+        login({ username: email, password: password }).then(()=>
         // navigate('/admin')
         window.location.href = '/tickets'
         )

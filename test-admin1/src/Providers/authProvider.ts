@@ -10,13 +10,17 @@ export const authProvider: AuthProvider = {
         });
         try {
             const response = await fetch(request);
-            console.log(response);
+            // console.log(response);
             if (response.status < 200 || response.status >= 300) {
                 throw new Error(response.statusText);
+                console.log("Error");
             }
+            // console.log("Response",response);
             const auth = await response.json();
             localStorage.setItem('auth', auth.token);
-            localStorage.setItem('identity',  JSON.stringify({"id": auth.id,  "usuario":auth.usuario}));
+            console.log("Auth",auth);
+            //localStorage.setItem('identity',  JSON.stringify({"username": auth.usuario,  "nombre":auth.nombre}));
+            localStorage.setItem('username',  auth.usuariog);
             return Promise.resolve()
         } catch {
             throw new Error('Error en usuario o password');

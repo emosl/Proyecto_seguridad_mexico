@@ -25,5 +25,10 @@
       "apellidoMaterno": "Garcia",
       "apellidoPaterno": "Palomares",
       "rol": "Ejecutivo"
+  },
+  {
+    "usuario" : "Fer123",
+    "contraseña" : "123",
+    "nombre" : "fernanda osorio"
   }
   ]
