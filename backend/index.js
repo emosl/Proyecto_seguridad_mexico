@@ -122,7 +122,7 @@ app.listen(8000, () => {
 app.get("/tickets", async (request, response) => {
   //check user token
   try{let token = request.get("Authentication");
-  console.log(token);
+  // console.log(token); 
   let verify = await jwt.verify(token, "secretKey");
   let user = await db.collection("Users").findOne({ usuario: verify.usuario });
 

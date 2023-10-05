@@ -18,7 +18,7 @@ export const authProvider: AuthProvider = {
             // console.log("Response",response);
             const auth = await response.json();
             localStorage.setItem('auth', auth.token);
-            console.log("Auth",auth);
+            // console.log("Auth",auth);
             localStorage.setItem('identity',  JSON.stringify({"username": auth.usuario,  "nombre":auth.nombre}));
             localStorage.setItem('username',  auth.usuario);
             localStorage.setItem('rol',  auth.rol);

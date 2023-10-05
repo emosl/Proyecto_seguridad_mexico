@@ -17,6 +17,7 @@ import {
   Edit,
 } from 'react-admin';
 import { useDataProvider } from 'react-admin';
+import { dataProvider } from '../Providers/dataProvider';
 
 const serviceOptions = {
   "Servicios": ["Agua", "Luz", "Teléfono", "Basura", "Limpieza del Aula"],
@@ -65,6 +66,15 @@ export const TicketsCreate = () => {
             { id: 'intermedio', name: 'Intermedio' }
           ]}
         />
+        <TextInput source="descripcion" />
+        <TextInput label="Resolution Details" source="resolutionDetails" />
+          <NumberInput label="Resolution Time (days)" source="resolutionTime" />
+          <TextInput label="Feedback" source="feedback" />
+          <SelectInput label="Satisfaction" source="satisfaction" choices={[
+            { id: 'satisfied', name: 'Satisfied' },
+            { id: 'neutral', name: 'Neutral' },
+            { id: 'unsatisfied', name: 'Unsatisfied' },
+          ]} />
       </SimpleForm>
     </Create>
   );
@@ -72,11 +82,16 @@ export const TicketsCreate = () => {
 
 export const TicketsList = (props) => {
   const [isFinished, setIsFinished] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const notify = useNotify();
   const refresh = useRefresh();
   const dataProvider = useDataProvider();
+  const auth = localStorage.getItem('auth');
+  console.log(auth);
+
 
   const handleFinish = (id) => {
+    console.log("finish id:", id);
     dataProvider.update('tickets', { id, data: { status: 'finished' } })
       .then(() => {
         notify('Ticket marked as finished');
@@ -90,7 +105,8 @@ export const TicketsList = (props) => {
   };
 
   const handleUpdate = (data, id) => {
-    dataProvider.update('tickets', { id, data: { ...data, status: 'finished' } })
+    console.log("update id:", id);
+    dataProvider.update('tickets', { id, data: { ...data } })
       .then(() => {
         notify('Ticket updated successfully');
         setIsFinished(false); 
@@ -103,31 +119,34 @@ export const TicketsList = (props) => {
   };
 
   return (
-    <List {...props}>
+    <List >
       {isFinished ? (
-        // The <Edit> component will take the ID from the URL
-        <Edit {...props}>
-          <SimpleForm>
-            <TextInput label="Resolution Details" source="resolutionDetails" />
-            <NumberInput label="Resolution Time (days)" source="resolutionTime" />
-            <TextInput label="Feedback" source="feedback" />
-            <SelectInput label="Satisfaction" source="satisfaction" choices={[
-              { id: 'satisfied', name: 'Satisfied' },
-              { id: 'neutral', name: 'Neutral' },
-              { id: 'unsatisfied', name: 'Unsatisfied' },
-            ]} />
-          </SimpleForm>
-        </Edit>
+        <SimpleForm
+          initialValues={{ resolutionDetails: '', resolutionTime: 0, feedback: '', satisfaction: '' }}
+          onSubmit={(initialValues) => handleUpdate(initialValues, dataProvider.getOne('tickets', selectedId))}
+          
+        >
+        
+          <TextInput label="Resolution Details" source="resolutionDetails" />
+          <NumberInput label="Resolution Time (days)" source="resolutionTime" />
+          <TextInput label="Feedback" source="feedback" />
+          <SelectInput label="Satisfaction" source="satisfaction" choices={[
+            { id: 'satisfied', name: 'Satisfied' },
+            { id: 'neutral', name: 'Neutral' },
+            { id: 'unsatisfied', name: 'Unsatisfied' },
+          ]} />
+        </SimpleForm>
       ) : (
         <Datagrid>
           <TextField source="id" />
-           <TextField source="clasificacion" />
-           <TextField source="tipoDeIncidencia" />
-           <DateField source="fechaDeCreacion" />
+          <TextField source="clasificacion" />
+          <TextField source="tipoDeIncidencia" />
+          <DateField source="fechaDeCreacion" />
           <FunctionField
             label="Action"
             render={(record) => (
               <button onClick={() => handleFinish(record.id)}>Finish</button>
+
             )}
           />
         </Datagrid>
@@ -136,35 +155,13 @@ export const TicketsList = (props) => {
   );
 };
 
-//   return (
-//     <List {...props}>
-//       {isFinished ? (
-//         <SimpleForm
-//           onSubmit={(data) => handleUpdate(data, id)} 
-//         >
-//           <TextInput label="Resolution Details" source="resolutionDetails" />
-//           <NumberInput label="Resolution Time (days)" source="resolutionTime" />
-//           <TextInput label="Feedback" source="feedback" />
-//           <SelectInput label="Satisfaction" source="satisfaction" choices={[
-//             { id: 'satisfied', name: 'Satisfied' },
-//             { id: 'neutral', name: 'Neutral' },
-//             { id: 'unsatisfied', name: 'Unsatisfied' },
-//           ]} />
-//         </SimpleForm>
-//       ) : (
-//         <Datagrid>
-//           <TextField source="id" />
-//           <TextField source="clasificacion" />
-//           <TextField source="tipoDeIncidencia" />
-//           <DateField source="fechaDeCreacion" />
-//           <FunctionField
-//             label="Action"
-//             render={(record) => (
-//               <button onClick={() => handleFinish(record.id)}>Finish</button>
-//             )}
-//           />
-//         </Datagrid>
-//       )}
-//     </List>
-//   );
-// };
+export const TicketsEdit = () => (
+  <Edit title={<PostTitle />}>
+    <SimpleForm warnWhenUnsavedChanges>
+      <ReferenceInput source="userId" reference="users" />
+      <TextInput source="id" />
+      <TextInput source="title" />
+      <TextInput source="body" />
+    </SimpleForm>
+  </Edit>
+);
