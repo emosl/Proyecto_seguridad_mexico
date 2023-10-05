@@ -9,7 +9,14 @@ import {
   useNotify,
   useRefresh,
   useRedirect,
+  List,
+  Datagrid,
+  TextField,
+  DateField,
+  FunctionField,
+  Edit,
 } from 'react-admin';
+import { useDataProvider } from 'react-admin';
 
 const serviceOptions = {
   "Servicios": ["Agua", "Luz", "Teléfono", "Basura", "Limpieza del Aula"],
@@ -43,6 +50,7 @@ export const TicketsCreate = () => {
   return (
     <Create onSuccess={onSuccess}>
       <SimpleForm>
+        <DateInput source="fechaDeCreacion" defaultValue={new Date()} />
         <SelectInput 
           source="clasificacion" 
           choices={Object.keys(serviceOptions).map(key => ({ id: key, name: key }))} 
@@ -57,11 +65,106 @@ export const TicketsCreate = () => {
             { id: 'intermedio', name: 'Intermedio' }
           ]}
         />
-        <NumberInput source="numeroDeIntermediarios" />
-        <TextInput source="Qué, cómo y si no se resolvió ¿por qué?" />
-        <NumberInput source="Tiempo que tardó en atenderse (días)" />
-        <DateInput source="fechaDeCreacion" defaultValue={new Date()} />
       </SimpleForm>
     </Create>
   );
 };
+
+export const TicketsList = (props) => {
+  const [isFinished, setIsFinished] = useState(false);
+  const notify = useNotify();
+  const refresh = useRefresh();
+  const dataProvider = useDataProvider();
+
+  const handleFinish = (id) => {
+    dataProvider.update('tickets', { id, data: { status: 'finished' } })
+      .then(() => {
+        notify('Ticket marked as finished');
+        setIsFinished(true);
+        refresh();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        notify('Error: could not mark the ticket as finished', 'warning');
+      });
+  };
+
+  const handleUpdate = (data, id) => {
+    dataProvider.update('tickets', { id, data: { ...data, status: 'finished' } })
+      .then(() => {
+        notify('Ticket updated successfully');
+        setIsFinished(false); 
+        refresh();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        notify('Error: could not update the ticket', 'warning');
+      });
+  };
+
+  return (
+    <List {...props}>
+      {isFinished ? (
+        // The <Edit> component will take the ID from the URL
+        <Edit {...props}>
+          <SimpleForm>
+            <TextInput label="Resolution Details" source="resolutionDetails" />
+            <NumberInput label="Resolution Time (days)" source="resolutionTime" />
+            <TextInput label="Feedback" source="feedback" />
+            <SelectInput label="Satisfaction" source="satisfaction" choices={[
+              { id: 'satisfied', name: 'Satisfied' },
+              { id: 'neutral', name: 'Neutral' },
+              { id: 'unsatisfied', name: 'Unsatisfied' },
+            ]} />
+          </SimpleForm>
+        </Edit>
+      ) : (
+        <Datagrid>
+          <TextField source="id" />
+           <TextField source="clasificacion" />
+           <TextField source="tipoDeIncidencia" />
+           <DateField source="fechaDeCreacion" />
+          <FunctionField
+            label="Action"
+            render={(record) => (
+              <button onClick={() => handleFinish(record.id)}>Finish</button>
+            )}
+          />
+        </Datagrid>
+      )}
+    </List>
+  );
+};
+
+//   return (
+//     <List {...props}>
+//       {isFinished ? (
+//         <SimpleForm
+//           onSubmit={(data) => handleUpdate(data, id)} 
+//         >
+//           <TextInput label="Resolution Details" source="resolutionDetails" />
+//           <NumberInput label="Resolution Time (days)" source="resolutionTime" />
+//           <TextInput label="Feedback" source="feedback" />
+//           <SelectInput label="Satisfaction" source="satisfaction" choices={[
+//             { id: 'satisfied', name: 'Satisfied' },
+//             { id: 'neutral', name: 'Neutral' },
+//             { id: 'unsatisfied', name: 'Unsatisfied' },
+//           ]} />
+//         </SimpleForm>
+//       ) : (
+//         <Datagrid>
+//           <TextField source="id" />
+//           <TextField source="clasificacion" />
+//           <TextField source="tipoDeIncidencia" />
+//           <DateField source="fechaDeCreacion" />
+//           <FunctionField
+//             label="Action"
+//             render={(record) => (
+//               <button onClick={() => handleFinish(record.id)}>Finish</button>
+//             )}
+//           />
+//         </Datagrid>
+//       )}
+//     </List>
+//   );
+// };
