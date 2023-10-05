@@ -55,7 +55,9 @@ app.post("/login", async (req, res) => {
               token: token,
               usuario: data.usuario,
               nombre: data.nombre,
-              rol : data.rol
+              id : data._id,
+              rol : data.rol,
+              mail : data.mail,
             });
           } else {
             res.sendStatus(401);
@@ -71,6 +73,8 @@ app.post("/registrarse", async (request, response) => {
   let pass = request.body.contraseña;
   let fname = request.body.nombre;
   let rol = request.body.rol;
+  let mail = request.body.mail;
+  let id = request.body.id;
   console.log(request.body);
   let data = await db.collection("Users").findOne({ usuario: user });
   if (data == null) {
@@ -81,7 +85,9 @@ app.post("/registrarse", async (request, response) => {
             usuario: user,
             contraseña: hash,
             nombre: fname,
-            rol : rol
+            rol : rol,
+            mail : mail,
+            id : id,
           };
           data = await db.collection("Users").insertOne(usuarioAgregar);
           response.sendStatus(201);
