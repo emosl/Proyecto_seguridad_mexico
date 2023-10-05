@@ -19,8 +19,9 @@ export const authProvider: AuthProvider = {
             const auth = await response.json();
             localStorage.setItem('auth', auth.token);
             console.log("Auth",auth);
-            //localStorage.setItem('identity',  JSON.stringify({"username": auth.usuario,  "nombre":auth.nombre}));
-            localStorage.setItem('username',  auth.usuariog);
+            localStorage.setItem('identity',  JSON.stringify({"username": auth.usuario,  "nombre":auth.nombre}));
+            localStorage.setItem('username',  auth.usuario);
+            localStorage.setItem('rol',  auth.rol);
             return Promise.resolve()
         } catch {
             throw new Error('Error en usuario o password');
@@ -34,14 +35,14 @@ export const authProvider: AuthProvider = {
     // called when the API returns an error
     checkError: ({ status }: { status: number }) => {
         if (status === 401 || status === 403) {
-            localStorage.removeItem("username");
+            localStorage.removeItem("rol");
             return Promise.reject();
         }
         return Promise.resolve();
     },
     // called when the user navigates to a new location, to check for authentication
     checkAuth: () => {
-        return localStorage.getItem("username")
+        return localStorage.getItem("rol")
             ? Promise.resolve()
             : Promise.reject();
     },

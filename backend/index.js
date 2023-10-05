@@ -40,7 +40,6 @@ app.post("/login", async (req, res) => {
   let user = req.body.usuario;
   let pass = req.body.contraseña;
   let data = await db.collection("Users").findOne({ usuario: user });
-  console.log(data);
   if (data == null) {
     res.sendStatus(401);
   } else {
@@ -56,6 +55,7 @@ app.post("/login", async (req, res) => {
               token: token,
               usuario: data.usuario,
               nombre: data.nombre,
+              rol : data.rol
             });
           } else {
             res.sendStatus(401);
@@ -70,6 +70,7 @@ app.post("/registrarse", async (request, response) => {
   let user = request.body.usuario;
   let pass = request.body.contraseña;
   let fname = request.body.nombre;
+  let rol = request.body.rol;
   console.log(request.body);
   let data = await db.collection("Users").findOne({ usuario: user });
   if (data == null) {
@@ -80,6 +81,7 @@ app.post("/registrarse", async (request, response) => {
             usuario: user,
             contraseña: hash,
             nombre: fname,
+            rol : rol
           };
           data = await db.collection("Users").insertOne(usuarioAgregar);
           response.sendStatus(201);
@@ -118,14 +120,35 @@ app.listen(8000, () => {
 
 //getList, getMany, getManyReference
 app.get("/tickets", async (request, response) => {
+  //check user token
+  try{let token = request.get("Authentication");
+  console.log(token);
+  let verify = await jwt.verify(token, "secretKey");
+  let user = await db.collection("Users").findOne({ usuario: verify.usuario });
+
+  let findUser = {};
+  if (user.rol == "coolaborador") {
+    findUser["usuario"] = verify.usuario;
+  }
+  else if (user.rol == "nacional") {
+    findUser["usuario"] = verify.usuario;
+  }
+  else if (user.rol == "ejecutivo") {
+    findUser["usuario"] = verify.usuario;
+  }
+
   let data = await db
     .collection("Tickets")
-    .find({})
+    .find(findUser)
     .project({ _id: 0 })
     .toArray();
   response.set("Access-Control-Expose-Headers", "X-Total-Count");
   response.set("X-Total-Count", data.length);
   response.json(data);
+}catch{
+  response.sendStatus(401);
+  console.log("error");
+}
 });
 
 //getOne
@@ -140,12 +163,19 @@ app.get("/tickets/:id", async (req, res) => {
 
 //create
 app.post("/tickets", async (request, response) => {
-  let addValue = request.body;
-  let data = await db.collection("Tickets").find({}).toArray();
-  let id = data.length + 1;
-  addValue["id"] = id;
-  data = await db.collection("Tickets").insertOne(addValue);
-  response.json(data);
+  try{
+    let token=request.get("Authentication");
+    let verifiedToken = await jwt.verify(token, "secretKey");
+    let addValue=request.body
+    let data=await db.collection('Tickets').find({}).toArray();
+    let id=data.length+1;
+    addValue["id"]=id;
+    addValue["usuario"]=verifiedToken.usuario;
+    data=await db.collection('Tickets').insertOne(addValue);
+    response.json(data);
+}catch{
+    response.sendStatus(401);
+}
 });
 
 //update
