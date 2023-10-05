@@ -14,7 +14,7 @@ import React from 'react';
 import { dataProvider } from "./Providers/dataProvider";
 import { UserList } from "./Pages/users";
 import { PostList, PostEdit, PostCreate } from "./posts";
-import { TicketsCreate } from "./Pages/tickets";
+import { TicketsCreate, TicketsList } from "./Pages/tickets";
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 import { Dashboard } from "./Pages/Dashboard";
@@ -41,22 +41,8 @@ export const App = () => (
   >
     <Resource name="tickets" 
     create={TicketsCreate}
-    list={ListGuesser}
+    list={TicketsList}
      />
-    {/* <Resource
-      name="posts"
-      list={PostList}
-      edit={PostEdit}
-      create={PostCreate}
-    /> */}
-    
-    {/* <Resource name="users" list={UserList} />
-    <Resource
-      name="users"
-      list={UserList}
-      show={ShowGuesser}
-      recordRepresentation="name"
-    /> */}
     <Resource
       name="posts"
       list={PostList}
