@@ -43,6 +43,7 @@ export const App = () => (
     <Resource name="tickets" 
     create={TicketsCreate}
     list={TicketsList}
+    edit={TicketsEdit}
      />
      
     <Resource
