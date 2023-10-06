@@ -24,4 +24,22 @@
   "rol": "cordinador",
   "mail": "rafael.blangah@gmail.com",
   "id": "1"
+},
+{
+  "_id": {
+    "$oid": "651e19a4b19f8717b1604e7f"
+  },
+  "usuario": "Rafa123",
+  "contraseña": "$2b$10$Kux.hr8ySMvD56AM0ADNjOacNjqbzo5OsxIJ7uPi0qQcmNim0DT7q",
+  "nombre": "Rafael Blanga",
+  "rol": "coolaborador"
+},
+{
+  "_id": {
+    "$oid": "651e3b3892f46cf94b41a494"
+  },
+  "usuario": "Ian123",
+  "contraseña": "$2b$10$.tWCeruLBI0DKvPBM9leS.Lv.XhoQUWYOqJPZ1GjynrBw5u027TCy",
+  "nombre": "Ian Holender",
+  "rol": "nacional"
 }]
