@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Create,
+  Filter,
   SimpleForm,
   TextInput,
   SelectInput,
@@ -11,6 +12,7 @@ import {
   useRedirect,
   List,
   Datagrid,
+  BooleanInput,
   TextField,
   DateField,
   FunctionField,
@@ -19,7 +21,10 @@ import {
   EditButton,
 } from "react-admin";
 import { useDataProvider } from "react-admin";
+import { CheckboxGroupInput } from 'react-admin';
 import { dataProvider } from "../Providers/dataProvider";
+import { Grid, Card, CardContent, makeStyles } from '@material-ui/core';
+
 
 const serviceOptions = {
   Servicios: ["Agua", "Luz", "Teléfono", "Basura", "Limpieza del Aula"],
@@ -118,49 +123,16 @@ export const TicketsCreate = () => {
   );
 };
 
-export const TicketsList = (props) => {
-  const [isFinished, setIsFinished] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-  const notify = useNotify();
-  const refresh = useRefresh();
-  const dataProvider = useDataProvider();
-  const auth = localStorage.getItem("auth");
-  console.log(auth);
-  console.log("props", props);
+const TicketFilter = (props) => (
+  <Filter {...props}>
+    <BooleanInput label="Show Finished" source="finished" alwaysOn />
+  </Filter>
+);
 
-  const handleFinish = (id) => {
-    console.log("finish id:", id);
-    dataProvider
-      .update("tickets", { id, data: { status: "finished" } })
-      .then(() => {
-        notify("Ticket marked as finished");
-        setIsFinished(true);
-        refresh();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        notify("Error: could not mark the ticket as finished", "warning");
-      });
-  };
-
-  const handleUpdate = (data, id) => {
-    console.log("update id:", id);
-    dataProvider
-      .update("tickets", { id, data: { ...data } })
-      .then(() => {
-        notify("Ticket updated successfully");
-        setIsFinished(false);
-        refresh();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        notify("Error: could not update the ticket", "warning");
-      });
-  };
-
+export const TicketsList = () => {
   return (
-    <List>
-        <Datagrid>
+    <List  filters={<TicketFilter />}>
+         <Datagrid>
           <TextField source="id" />
           <TextField source="clasificacion" />
           <TextField source="tipoDeIncidencia" />
@@ -170,33 +142,51 @@ export const TicketsList = (props) => {
     </List>
   );
 };
+// export const TicketsList = (props) => {
+//   console.log("props", props.ids)
+//   return (
+//     <List {...props}>
+//       <Grid container spacing={3}>
+//         {props.ids && props.ids.length > 0 ? (
+//           props.ids.map(id => (
+//             <Grid item xs={12} md={6} lg={4} key={id}>
+//               <Card>
+//                 <CardContent>
+//                   <TextField record={props.data[id]} source="id" />
+//                   <TextField record={props.data[id]} source="clasificacion" />
+//                   <TextField record={props.data[id]} source="tipoDeIncidencia" />
+//                   <DateField record={props.data[id]} source="fechaDeCreacion" />
+//                   <EditButton basePath="/tickets" record={props.data[id]} />
+//                 </CardContent>
+//               </Card>
+//             </Grid>
+//           ))
+//         ) : (
+//           <div>No tickets found.</div>
+//         )}
+//       </Grid>
+//     </List>
+//   );
+// };
+
+
+
 
 const PostTitle = () => {
   const record = useRecordContext();
   return <span>Post {record ? `"${record.id}"` : ''}</span>;
 };
 
-// const postFilters = [
-//     <TextInput key="search" source="q" label="Search" alwaysOn />,
-//     <ReferenceInput key="user" source="userId" label="User" reference="Users" />,
-// ];
-
 
 export const TicketsEdit = () => (
   <Edit>
     <SimpleForm warnWhenUnsavedChanges>
-      <TextInput label="Resolution Details" source="resolutionDetails" />
-      <NumberInput label="Resolution Time (days)" source="resolutionTime" />
-      <TextInput label="Feedback" source="feedback" />
-      <SelectInput
-        label="Satisfaction"
-        source="satisfaction"
-        choices={[
-          { id: "satisfied", name: "Satisfied" },
-          { id: "neutral", name: "Neutral" },
-          { id: "unsatisfied", name: "Unsatisfied" },
-        ]}
-      />
+      <TextInput label="Qué, cómo y si no se
+resolvió ¿por qué?" source="detalles" />
+      <NumberInput label="Tiempo de Resolución (días)" source="tiempoResolucion" />
+      <NumberInput label="Número de intermediarios" source="numIntermediarios" />
+      <DateInput source="fechaDeResolucion" defaultValue={new Date()} />
+      <BooleanInput label="Finished" source="finished" />
     </SimpleForm>
   </Edit>
 );
