@@ -124,47 +124,74 @@ app.listen(8000, () => {
   console.log("Server is running on port 8000.");
 }); // listen for requests on port 8000
 
+
 //getList, getMany, getManyReference
 app.get("/tickets", async (request, response) => {
   //check user token
-  try{let token = request.get("Authentication");
-  // console.log(token); 
-  let verify = await jwt.verify(token, "secretKey");
-  let user = await db.collection("Users").findOne({ usuario: verify.usuario });
+  try {
+    let token = request.get("Authentication");
+    // console.log(token);
+    let verify = await jwt.verify(token, "secretKey");
+    let user = await db
+      .collection("Users")
+      .findOne({ usuario: verify.usuario });
 
-  let findUser = {};
-  if (user.rol == "coolaborador") {
-    findUser["usuario"] = verify.usuario;
-  }
-  else if (user.rol == "nacional") {
-    findUser["usuario"] = verify.usuario;
-  }
-  else if (user.rol == "ejecutivo") {
-    findUser["usuario"] = verify.usuario;
-  }
+    let findUser = {};
+    if (request.query.finished === 'true') {
+      findUser.finished = true;
+    } else if (request.query.finished === 'false') {
+      findUser.finished = { $ne: true };
+    }
+    if (user.rol == "coolaborador") {
+      findUser["usuario"] = verify.usuario;}
+    // } else if (user.rol == "nacional") {
+    //   findUser["usuario"] = verify.usuario;
+    // } else if (user.rol == "ejecutivo") {
+    //   findUser["usuario"] = verify.usuario;
+    // }
 
-  let data = await db
-    .collection("Tickets")
-    .find(findUser)
-    .project({ _id: 0 })
-    .toArray();
-  response.set("Access-Control-Expose-Headers", "X-Total-Count");
-  response.set("X-Total-Count", data.length);
-  response.json(data);
-}catch{
-  response.sendStatus(401);
-  console.log("error");
-}
+    let data = await db
+      .collection("Tickets")
+      .find(findUser)
+      .project({ _id: 0 })
+      .toArray();
+    response.set("Access-Control-Expose-Headers", "X-Total-Count");
+    response.set("X-Total-Count", data.length);
+    response.json(data);
+  } catch {
+    response.sendStatus(401);
+    console.log("error");
+  }
 });
 
 //getOne
-app.get("/tickets/:id", async (req, res) => {
-  let data = await db
-    .collection("Tickets")
-    .find({ id: Number(req.params.id) })
-    .project({ _id: 0 })
-    .toArray();
-  res.json(data[0]);
+app.get("/tickets/:id", async (request, response) => {
+  try {
+    let token = request.get("Authentication");
+    // console.log("TOCKEN", token);
+    let verifiedToken = await jwt.verify(token, "secretKey");
+    // console.log("VERIFIED", verifiedToken);
+    let authData = await db
+      .collection("Users")
+      .findOne({ usuario: verifiedToken.usuario });
+    let parametersFind = { id: Number(request.params.id) };
+    // console.log("AUTHDATA", authData);
+    if (authData.permissions == "coolaborador") {
+      parametersFind["usuario"] = verifiedToken.usuario;
+    }
+    let data = await db
+      .collection("Tickets")
+      .find(parametersFind)
+      .project({ _id: 0 })
+      .toArray();
+      // console.log("DATA", data)
+    // log(verifiedToken.usuario, "ver objeto", request.params.id);
+    response.json(data[0]);
+    console.log("DATA[0]", data[0]);
+  } catch {
+    console.log("no se pudo");
+    response.sendStatus(401);
+  }
 });
 
 //create
@@ -185,24 +212,28 @@ app.post("/tickets", async (request, response) => {
 });
 
 //update
-app.put("/tickets/:id", async (req, res) => {
-  let addValues = req.body;
-  addValues["id"] = Number(req.params.id);
-  let data = await db
-    .collection("Tickets")
-    .updateOne({ id: addValues["id"] }, { $set: addValues });
-  data = await db
-    .collection("Tickets")
-    .find({ id: Number(req.params.id) })
-    .project({ _id: 0 })
-    .toArray();
-  res.json(data[0]);
+app.put("/tickets/:id", async (request, response) => {
+  try{
+    let token=request.get("Authentication");
+    let verifiedToken = await jwt.verify(token, "secretKey");
+    let addValue=request.body
+    addValue["id"]=Number(request.params.id);
+    let data=await db.collection("Tickets").updateOne({"id": addValue["id"]}, {"$set": addValue});
+    data=await db.collection('Tickets').find({"id": Number(request.params.id)}).project({_id:0, id:1, nombre:1, materia:1}).toArray();
+    response.json(data[0]);
+}catch{
+    response.sendStatus(401);
+}
 });
 
 //delete
-app.delete("/tickets/:id", async (req, res) => {
-  let data = await db
-    .collection("Tickets")
-    .deleteOne({ id: Number(req.params.id) });
-  res.json(data);
+app.delete("/tickets/:id", async (request, response) => {
+  try{
+    let token=request.get("Authentication");
+    let verifiedToken = await jwt.verify(token, "secretKey");
+    let data=await db.collection('Tickets').deleteOne({"id": Number(request.params.id)});
+    response.json(data);
+}catch{
+    response.sendStatus(401);
+}
 });

@@ -30,6 +30,8 @@ export const authProvider: AuthProvider = {
     // called when the user clicks on the logout button
     logout: () => {
         localStorage.removeItem("username");
+        localStorage.removeItem("rol");
+        localStorage.removeItem("identity");
         return Promise.resolve();
     },
     // called when the API returns an error

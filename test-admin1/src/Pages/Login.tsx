@@ -9,9 +9,28 @@ export const Login: React.FC = () => {
   const login = useLogin();
   const notify = useNotify();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+
+ 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
+    
+   
+    const handleSubmit =  async (e: React.FormEvent) => {
+        e.preventDefault();
+       try{
+        await login({ username: email, password: password })
+         // .then(() => {
+        //     window.location.href = '/tickets'; 
+        // })
+       }catch{
+        notify('Invalid email or password');
+       }
+        // .catch(() => {
+        //     notify('Invalid email or password'); 
+        // });
+    };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
