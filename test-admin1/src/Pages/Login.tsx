@@ -14,18 +14,20 @@ export const Login: React.FC = () => {
     const [rememberMe, setRememberMe] = useState(false);
     
    
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit =  async (e: React.FormEvent) => {
         e.preventDefault();
-       
-        login({ username: email, password: password })
-        .then(() => {
-            window.location.href = '/tickets'; 
-        })
-        .catch(() => {
-            notify('Invalid email or password'); 
-        });
+       try{
+        await login({ username: email, password: password })
+         // .then(() => {
+        //     window.location.href = '/tickets'; 
+        // })
+       }catch{
+        notify('Invalid email or password');
+       }
+        // .catch(() => {
+        //     notify('Invalid email or password'); 
+        // });
     };
-    
 
     return (
         <body className="body">
