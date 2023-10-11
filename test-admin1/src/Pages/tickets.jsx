@@ -19,6 +19,7 @@ import {
   Edit,
   useRecordContext,
   EditButton,
+  SearchInput
 } from "react-admin";
 import { useDataProvider } from "react-admin";
 import { useListContext } from 'react-admin';
@@ -166,6 +167,8 @@ export const TicketsList = () => {
   const [filters, setFilters] = useState({});
   const dataProvider = useDataProvider();
   const [clasificacion, setClasificacion] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+
 
 
   useEffect(() => {
@@ -204,9 +207,17 @@ export const TicketsList = () => {
     setClasificacion(newClassification);
     setFilters({ ...filters, clasificacion: newClassification });
   };
+
+  const TicketFilters = [
+    // <SearchInput source="q" alwaysOn />,
+    // <TextInput key="search" source="q" label="Search" alwaysOn />,
+    // <SearchInput source="aula"/>,
+    <SearchInput source="id"/>,
+    // // <SelectInput source="prioridad" label="Prioridad" choices={prioridadChoices} />,
+    <SelectInput source="clasificacion" label="Clasificacion" choices={["Agua","Digital"]} />,
+    // <SelectInput source="tipo" label="Tipo" choices={tipoChoicesMapping} />
+];
   
-
-
   if (loading) {
       return <div>Loading...</div>;
   }
@@ -219,9 +230,8 @@ export const TicketsList = () => {
   console.log("Los ids: ", ids);
 
   return (
-    <ListContextProvider value={{ data, ids }}>
-     
-        <List>
+    <ListContextProvider value={{ data, ids }} >
+        <List  filters={TicketFilters}>
           <div>
             <div className="dropdowns">
             <select
@@ -261,3 +271,4 @@ export const TicketsList = () => {
     </ListContextProvider>
 );
 };
+
