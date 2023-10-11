@@ -171,6 +171,7 @@ resolvió ¿por qué?"
 );
 
 
+
 export const TicketsList = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -179,6 +180,7 @@ export const TicketsList = () => {
 
   useEffect(() => {
     dataProvider
+      .getList('tickets', {
       .getList('tickets', {
         pagination: { page: 1, perPage: 10 },
         sort: { field: 'id', order: 'ASC' },
@@ -189,10 +191,19 @@ export const TicketsList = () => {
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
         setLoading(false);
       });
   }, [dataProvider]);
 
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const filteredData = Object.values(data).filter((item) => {
+    const idFilter = filters.id ? item.id.toString().includes(filters.id) : true;
+    const clasificacionFilter = filters.clasificacion
+      ? item.clasificacion.includes(filters.clasificacion)
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
@@ -229,10 +240,45 @@ export const TicketsList = () => {
   ];
 
   if (loading) return <div>Loading...</div>;
+  const TicketFilters = [
+    <SearchInput
+      source="id"
+      value={filters.id}
+      onChange={(e) => handleFilterChange('id', e.target.value)}
+    />,
+    <TextInput
+      source="clasificacion"
+      label="Clasificacion"
+      value={filters.clasificacion}
+      onChange={(e) => handleFilterChange('clasificacion', e.target.value)}
+    />,
+    <BooleanInput
+      source="finished"
+      label="Terminado"
+      value={filters.finished}
+      onChange={(e) => handleFilterChange('finished', e.target.value)}
+    />
+    
+  ];
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <ListContextProvider value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}>
+    <ListContextProvider value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}>
       <List filters={TicketFilters}>
+        <div className="custom-grid">
+          {filteredData.map((item) => (
+            <div key={item.id} className="grid-item">
+              <h3>Ticket Information</h3>
+              <div>ID: <span className="value-text"><TextField source="id" record={item} /></span></div>
+              <div>Clasificación: <span className="value-text"><TextField source="clasificacion" record={item} /></span></div>
+              <div>Tipo de Incidencia: <span className="value-text"><TextField source="tipoDeIncidencia" record={item} /></span></div>
+              <div>Fecha de Creación: <span className="value-text"><DateField source="fechaDeCreacion" record={item} /></span></div>
+              <EditButton basePath="/tickets" record={item} />
+            </div>
+          ))}
+        </div>
         <div className="custom-grid">
           {filteredData.map((item) => (
             <div key={item.id} className="grid-item">
@@ -253,3 +299,8 @@ export const TicketsList = () => {
   
 };
 
+
+  
+  
+  
+};

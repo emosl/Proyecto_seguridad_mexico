@@ -2,33 +2,40 @@
     margin:0 ;
     padding:0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    background: transparent;
 }
 
 
 /* "Fondo"*/
 .body{
-    margin:0 ;
-    min-height: 100vh;
-    min-width: 100vh;
-    background: beige;
-    
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100%;
+    background-image: url('./src/Assets/flag-of-mexico.jpg'); /* Ruta de tu imagen de fondo */
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+   
 }
+
+
 
 /* "caja de texto de login"*/
 .wrapper{
     position: absolute;
+    max-width: 65%;
+    max-height: 70%;
     width: 650px;
     height: 450px;
     background: transparent;
     box-shadow: 0 0 20px rgba(105, 129, 106, 0.896);
     overflow: hidden;
     border-radius: 10%;
-    top: 100px;
-    left: 500px;
-    margin: 5% 5%; 
-    
+    top: 75px;
+    left: 50%; 
+    transform: translateX(-50%);
+    background: beige;
+    margin: auto;
    
 }
 
@@ -60,10 +67,11 @@
     position: absolute;
     top: 33%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Centra horizontal y verticalmente */
+    transform: translate(-50%, -50%);
+    max-width: 100%; 
+    max-height: 85%;
     width: 55%;
     height: 55%;
-    margin: 0; /* Puedes quitar el margen si deseas que esté centrado perfectamente */
 }
 
 
@@ -79,6 +87,7 @@
 
 /* " Lineas login"*/
 .input-box input{
+    
     width: 100%;
     height: 100%;
     background: transparent;
@@ -90,6 +99,7 @@
     color: rgb(23, 107, 38);
     font-weight: 500;
     transition: .5s;
+    
 
     
 }
@@ -103,9 +113,9 @@
 /* "Texto User/pass"*/
 .input-box label{
     position: absolute;
-    top: 50px;
+    top: 60%;
     left: 0;
-    transform: translateY(-97%);
+    transform: translateY(-20%);
     font-size: 16px;
     color: rgb(23, 107, 38);
     pointer-events: none;
