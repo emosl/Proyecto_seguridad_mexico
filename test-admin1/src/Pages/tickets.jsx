@@ -229,27 +229,15 @@ export const TicketsList = () => {
   });
  
 
-  const handleFilterClick = (newFilters) => {
-    setFilters(newFilters);
-  };
-
-  const handleClassificationChange = (e) => {
-    const newClassification = e.target.value;
-    console.log("Selected Classification:", newClassification);
-    setClasificacion(newClassification);
-    setFilters({ ...filters, clasificacion: newClassification });
-  };
-
-
   
-  const bull = (
-    <Box
-      component="span"
-      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-    >
-      •
-    </Box>
-  );
+  // const bull = (
+  //   <Box
+  //     component="span"
+  //     sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+  //   >
+  //     •
+  //   </Box>
+  // );
 
   if (loading) {
     return <div>Loading...</div>;
@@ -259,43 +247,10 @@ export const TicketsList = () => {
     return <div>Error loading data</div>;
   }
 
-  console.log("Los ids: ", ids);
 
   return (
     <ListContextProvider value={{ data, ids }}>
       <List filters={TicketFilters}>
-        <div>
-          <div className="dropdowns">
-            <select value={clasificacion} onChange={handleClassificationChange}>
-              <option value="">Select Classification</option>
-              {Object.keys(serviceOptions).map((classification) => (
-                <option key={classification} value={classification}>
-                  {classification}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="buttons">
-          <button
-            className="ticket-button"
-            onClick={() => handleFilterClick({ finished: true })}
-          >
-            Tickets Terminados
-          </button>
-          <button
-            className="ticket-button"
-            onClick={() => handleFilterClick({ finished: false })}
-          >
-            Tickets Sin Terminar
-          </button>
-          <button
-            className="ticket-button"
-            onClick={() => handleFilterClick({})}
-          >
-            Clear Filters
-          </button>
-        </div>
         <Datagrid>
           <TextField label="ID" source="id" />
           <TextField label="Clasificación" source="clasificacion" />
