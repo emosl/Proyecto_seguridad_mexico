@@ -6,6 +6,8 @@
     background: transparent;
 }
 
+
+/* "Fondo"*/
 .body{
     margin:0 ;
     min-height: 100vh;
@@ -14,19 +16,28 @@
     
 }
 
+/* "caja de texto de login"*/
 .wrapper{
-    position: relative;
-    width: 400px;
+    position: absolute;
+    width: 650px;
     height: 450px;
     background: transparent;
-    box-shadow: 0 0 20px rgb(23, 107, 38);
+    box-shadow: 0 0 20px rgba(105, 129, 106, 0.896);
     overflow: hidden;
     border-radius: 10%;
-    left: 0;
-    top: 150px;
-    left: 150px;
+    top: 100px;
+    left: 500px;
+    margin: 5% 5%; 
+    
+   
 }
 
+.wrapper .form-box.login {
+    left: 0;
+    padding: 0 60px 0 40px;
+}
+
+/* "Texto dentro de marco login"*/
 .wrapper .form-box{
     position: absolute;
     top: 0;
@@ -37,25 +48,36 @@
     justify-content: center;
 }
 
+/* "Formato para cosas dentro de caja login"*/
 .wrapper .form-box.login{
     left: 0;
     padding: 0 60px 0 40px;
 
 }
 
-.form-box h2{
-    font-size: 32px;
-    color: rgb(23, 107, 38);
-    text-align: center;
+/* "Logo "*/
+.logo {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra horizontal y verticalmente */
+    width: 55%;
+    height: 55%;
+    margin: 0; /* Puedes quitar el margen si deseas que esté centrado perfectamente */
 }
 
+
+/* "Estilo dentro de caja de texto"*/
 .form-box .input-box {
     position: relative;
     width: 100%;
     height: 50px;
-    margin: 25px 0;
+    margin: 4.5% 4.5%;
+    top: 80px;
+
 }
 
+/* " Lineas login"*/
 .input-box input{
     width: 100%;
     height: 100%;
@@ -68,13 +90,17 @@
     color: rgb(23, 107, 38);
     font-weight: 500;
     transition: .5s;
+
+    
 }
+
 
 .input-box input:focus,
 .input-box input:valid{
     border-bottom-color: rgb(23, 107, 38) ;
 }
 
+/* "Texto User/pass"*/
 .input-box label{
     position: absolute;
     top: 50px;
@@ -84,6 +110,8 @@
     color: rgb(23, 107, 38);
     pointer-events: none;
     transition: .5s;
+    
+    
 }
 
 .input-box input:focus~label,
@@ -92,6 +120,7 @@
     color: rgb(23, 107, 38);
 }
 
+/* "Boton login"*/
 .btn{
     position: relative;
     width: 100%;
@@ -105,9 +134,12 @@
     font-weight: 600;
     z-index: 1;
     overflow: hidden;
+    margin: 2.5% 2.5%;
+    top: 85px;
 }
 
 
+/* "Formato boton login"*/
 .btn::before{
    content: " ";
    position: absolute;
@@ -117,35 +149,10 @@
    left: 0;
    z-index: -1;
    background: rgb(23, 107, 38);
+   
 }
 
 .btn:hover:before{
     top:0;
 }
 
-.info-text{
-   position: absolute;
-   padding-left: 1030px;
-   top: 200px;
-}
-
-.info-text h2{
-    color: rgb(23, 107, 38);
-    font-size: 40px;
-    font-weight: bolder;
-}
-
-.info-text p{
-    font-size: 20px;
-    color: rgb(23, 107, 38);
-    font-weight: 500;
-}
-
-.logo {
-    position: absolute;
-    top: 20px; 
-    left: 500px;
-    height: 35%;
-    width: 35%; 
-    
-}

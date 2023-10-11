@@ -32,8 +32,18 @@ export const Login: React.FC = () => {
     <body className="body">
       <div className="wrapper">
         <span className="bg-animate"></span>
+
+        <div className="logo">
+        <img
+          className="logo"
+          src="./src/Assets/fxm.png"
+          alt="Fundación por México Logo"
+          width="500"
+          height="300"
+        />
+      </div>
+
         <div className="form-box login">
-          <h2>Login</h2>
           <form onSubmit={handleSubmit}>
             <div className="input-box">
               <input
@@ -44,6 +54,8 @@ export const Login: React.FC = () => {
               />
               <label>Username</label>
             </div>
+
+
             <div className="input-box">
               <input
                 type="password"
@@ -53,26 +65,19 @@ export const Login: React.FC = () => {
               />
               <label>Password</label>
             </div>
+
+
             <button type="submit" className="btn">
               Login
             </button>
           </form>
         </div>
-        <div></div>
+
+       
+
       </div>
-      <div className="info-text">
-        <h2>Bienvenido</h2>
-        <p>Sistema de Tickets Fundación por México</p>
-      </div>
-      <div className="logo">
-        <img
-          className="logo"
-          src="./src/Assets/fxm.png"
-          alt="Fundación por México Logo"
-          width="500"
-          height="300"
-        />
-      </div>
+
+
     </body>
   );
 };
