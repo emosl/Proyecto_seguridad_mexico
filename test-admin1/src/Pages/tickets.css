@@ -1,0 +1,27 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 20px; 
+    padding: 20px;
+  }
+  
+  .grid-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Adjust the background color as needed */
+  }
+
+.buttons{
+    color: #ccc;
+    padding: 10px;
+
+}
+
+.ticket-button{
+    flex-direction: column;
+    padding: 10px;
+    margin: 5px;
+
+}
+
