@@ -1,36 +1,36 @@
 *{
-    margin:0;
+    margin:0 ;
     padding:0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-
-
-
+    background: transparent;
 }
-/* lallalalalalala */
 
 .body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin:0 ;
     min-height: 100vh;
-    background: #ffffff;
+    min-width: 100vh;
+    background: beige;
+    
 }
 
 .wrapper{
     position: relative;
-    width: 750px;
+    width: 400px;
     height: 450px;
     background: transparent;
-    border: 2px solid rgb(255, 0, 0);
-    box-shadow: 0 0 25px rgb(255, 0, 0);
+    box-shadow: 0 0 20px rgb(23, 107, 38);
     overflow: hidden;
+    border-radius: 10%;
+    left: 0;
+    top: 150px;
+    left: 150px;
 }
 
 .wrapper .form-box{
     position: absolute;
     top: 0;
-    width: 50%;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@
 
 .form-box h2{
     font-size: 32px;
-    color: #ff0000;
+    color: rgb(23, 107, 38);
     text-align: center;
 }
 
@@ -63,16 +63,16 @@
     border: none;
     padding-right: 23px;
     outline: none;
-    border-bottom: 2px solid #ff0000;
+    border-bottom: 2px solid rgb(23, 107, 38);
     font-size: 16px;
-    color: #ff0000;
+    color: rgb(23, 107, 38);
     font-weight: 500;
     transition: .5s;
 }
 
 .input-box input:focus,
 .input-box input:valid{
-    border-bottom-color: rgb(255, 0, 0) ;
+    border-bottom-color: rgb(23, 107, 38) ;
 }
 
 .input-box label{
@@ -81,7 +81,7 @@
     left: 0;
     transform: translateY(-97%);
     font-size: 16px;
-    color: #ff0000;
+    color: rgb(23, 107, 38);
     pointer-events: none;
     transition: .5s;
 }
@@ -89,7 +89,7 @@
 .input-box input:focus~label,
 .input-box input:valid~label{
     top: -5px;
-    color: rgb(255, 0, 0);
+    color: rgb(23, 107, 38);
 }
 
 .btn{
@@ -97,16 +97,16 @@
     width: 100%;
     height: 45px;
     background: transparent;
-    border: 2px solid rgb(255, 0, 0);
     outline: none;
-    border-radius: 40px;
+    border-radius: 10%;
     cursor: pointer;
     font-size: 16px;
-    color: #fff;
+    color: beige;
     font-weight: 600;
     z-index: 1;
     overflow: hidden;
 }
+
 
 .btn::before{
    content: " ";
@@ -116,58 +116,36 @@
    top: -100%;
    left: 0;
    z-index: -1;
-   background: linear-gradient(#ffffff, rgb(255, 0, 0), #ffffff, rgb(255, 0, 0));
+   background: rgb(23, 107, 38);
 }
 
 .btn:hover:before{
     top:0;
 }
 
-.wrapper .info-text{
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.wrapper .info-text.login{
-    right: 0;
-    text-align: center;
-    padding: 50px;
-
+.info-text{
+   position: absolute;
+   padding-left: 1030px;
+   top: 200px;
 }
 
 .info-text h2{
-    font-size: 36px;
-    color: #f90000;
-    line-height: 1.3;
-    text-transform: uppercase;
+    color: rgb(23, 107, 38);
+    font-size: 40px;
+    font-weight: bolder;
 }
 
 .info-text p{
-    font-size: 16px;
-    color: #f90000;
-}
-
-.wrapper .bg-animate {
-    position: absolute;
-    top: 0;  /* Adjusted */
-    right: 0;
-    width: 400px;  /* Adjusted */
-    height: 100vh;  /* Adjusted */
-    background: linear-gradient(0deg, rgb(243, 0, 0) 0%, rgb(255, 255, 255) 80%, #fdfdfd 100%);
-    border-bottom: 3px solid #0ef;
+    font-size: 20px;
+    color: rgb(23, 107, 38);
+    font-weight: 500;
 }
 
 .logo {
     position: absolute;
-    top: 50px; 
-    left: 75%;  
-    width: 200px;  
-    height: 100px;  
-    transform: translateX(-50%) translateY(10%);  
+    top: 20px; 
+    left: 500px;
+    height: 35%;
+    width: 35%; 
+    
 }
-
