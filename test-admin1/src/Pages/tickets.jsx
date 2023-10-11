@@ -217,6 +217,8 @@ export const TicketsList = () => {
     <SelectInput source="clasificacion" label="Clasificacion" choices={["Agua","Digital"]} />,
     // <SelectInput source="tipo" label="Tipo" choices={tipoChoicesMapping} />
 ];
+
+
   
   if (loading) {
       return <div>Loading...</div>;
