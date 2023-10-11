@@ -128,9 +128,10 @@ app.listen(8000, () => {
 //getList, getMany, getManyReference
 app.get("/tickets", async (request, response) => {
   //check user token
+  console.log("request", request.query);
   try {
     let token = request.get("Authentication");
-    // console.log(token);
+    
     let verify = await jwt.verify(token, "secretKey");
     let user = await db
       .collection("Users")
@@ -149,24 +150,151 @@ app.get("/tickets", async (request, response) => {
     // } else if (user.rol == "ejecutivo") {
     //   findUser["usuario"] = verify.usuario;
     // }
+    if ("prioridad" in request.query) {
+      // If "prioridad" is present in the query, filter by it
+      console.log("Filtering by Prioridad:", request.query.prioridad);
+      findUser["prioridad"] = request.query.prioridad;
+    }
+    if("id" in request.query){
+      console.log("Filtering by ID:", request.query.id);
+      findUser["id"] = Number(request.query.id);
+      console.log("findUser de id ", findUser);
+    }
+    if ("clasificacion" in request.query) {
+      // If "prioridad" is present in the query, filter by it
+      console.log("Filtering by Clasificacion:", request.query.clasificacion);
+      findUser["clasificacion"] = request.query.clasificacion;
+    }
 
-    let data = await db
-      .collection("Tickets")
-      .find(findUser)
-      .project({ _id: 0 })
-      .toArray();
-    response.set("Access-Control-Expose-Headers", "X-Total-Count");
-    response.set("X-Total-Count", data.length);
-    response.json(data);
-  } catch {
-    response.sendStatus(401);
-    console.log("error");
+    if ("_sort" in request.query){
+      let sortBy=request.query._sort;
+      console.log("sortBy", sortBy);
+      let sortOrder=request.query._order=="ASC"?1:-1;
+      console.log("sortOrder", sortOrder);
+      let start=Number(request.query._start);
+      console.log("start", start);
+      let end=Number(request.query._end);
+      console.log("end", end);
+      let sorter={}
+      sorter[sortBy]=sortOrder
+      console.log("sorter", sorter);
+      console.log("findUser", findUser);
+      let data=await db.collection('Tickets').find(findUser).sort(sorter).project({_id:0}).toArray();
+      // console.log("data", data);
+      response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+      response.set('X-Total-Count', data.length)
+      data=data.slice(start, end)
+      response.json(data);
+      console.log("data", data);
+  }else if ("id" in request.query){
+      let data=[]
+      for (let index=0; index<request.query.id.length; index++){
+          let dataObtain=await db.collection('Tickets').find({id: Number(request.query.id[index])}).project({_id:0}).toArray();
+          data=await data.concat(dataObtain)
+      }
+      response.json(data);
+  }else {
+      let data=[]
+      data=await db.collection('Tickets').find(request.query).project({_id:0}).toArray();
+      response.set('Access-Control-Expose-Headers', 'X-Total-Count')
+      response.set('X-Total-Count', data.length)
+      response.json(data)
   }
+}catch{
+  response.sendStatus(401);
+}
 });
+
+// app.get("/Tickets", async (request, response) => {
+//   console.log("request", request.query._id);
+//   try {
+//       let token = request.get("Authentication");
+//       let verifiedToken = await jwt.verify(token, "secretKey");
+//       let authData = await db
+//       .collection("Users")
+//       .findOne({ usuario: verify.usuario });
+
+//       let parametersFind = {};
+//       if (authData.rol === "coolaborador") {
+//           parametersFind["usuario"] = authData.usuario;
+//       }
+
+//       if ("prioridad" in request.query) {
+//           // If "prioridad" is present in the query, filter by it
+//           console.log("Filtering by Prioridad:", request.query.prioridad)
+//           parametersFind["prioridad"] = request.query.prioridad;
+//       }
+//       if ("clasificacion" in request.query) {
+//           // If "prioridad" is present in the query, filter by it
+//           console.log("Filtering by Clasificacion:", request.query.clasificacion)
+//           parametersFind["clasificacion"] = request.query.clasificacion;
+//       }
+//       if ("tipo" in request.query) {
+//           // If "prioridad" is present in the query, filter by it
+//           console.log("Filtering by Tipo:", request.query.tipo)
+//           parametersFind["tipo"] = request.query.tipo;
+//       }
+//       if ("estatus" in request.query) {
+//           // If "prioridad" is present in the query, filter by it
+//           console.log("Filtering by Estatus:", request.query.estatus)
+//           parametersFind["estatus"] = request.query.estatus;
+//       }
+//       if ("aula" in request.query) {
+//           // If "prioridad" is present in the query, filter by it
+//           console.log("Filtering by Estatus:", request.query.aula)
+//           parametersFind["aula"] = request.query.aula;
+//       }
+//       if ("id" in request.query) {
+//           // If "prioridad" is present in the query, filter by it
+//           console.log("Filtering by ID:", request.query.id)
+//           parametersFind["id"] = request.query.id;
+//       }
+
+//       // Determine where the endpoint is
+//       if ("_sort" in request.query) { // list
+//           let sortBy = request.query._sort;
+//           let sortOrder = request.query._order === "ASC" ? 1 : -1;
+//           let start = Number(request.query._start);
+//           let end = Number(request.query._end);
+//           let sorter = {};
+//           sorter[sortBy] = sortOrder;
+
+//           const total = await db.collection('Tickets').countDocuments(parametersFind);
+//           response.set('Access-Control-Expose-Headers', 'X-Total-Count');
+//           response.set('X-Total-Count', total);
+
+//           const data = await db.collection('Tickets')
+//               .find(parametersFind)
+//               .sort(sorter)
+//               .project({ _id: 0 })
+//               .skip(start)
+//               .limit(end - start)
+//               .toArray();
+
+//           response.json(data);
+//       } else if ("id" in request.query) { // getMany
+//           let data = [];
+//           for (let index = 0; index < request.query.id.length; index++) {
+//               let dataObtain = await db.collection('Tickets').find({ id: Number(request.query.id[index]) }).project({ _id: 0 }).toArray();
+//               data = data.concat(dataObtain);
+//           }
+//           response.json(data);
+//       } else { // getReference
+//           let data = await db.collection('Tickets').find(parametersFind).project({ _id: 0 }).toArray();
+//           response.set('Access-Control-Expose-Headers', 'X-Total-Count');
+//           response.set('X-Total-Count', data.length);
+//           response.json(data);
+//       }
+//   } catch {
+//       console.error(error);
+//       response.sendStatus(401);
+//   }
+// });
 
 //getOne
 app.get("/tickets/:id", async (request, response) => {
   try {
+    console.log("request id", request.params);
     let token = request.get("Authentication");
     // console.log("TOCKEN", token);
     let verifiedToken = await jwt.verify(token, "secretKey");

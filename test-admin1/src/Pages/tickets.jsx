@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Create,
   Filter,
@@ -19,14 +19,20 @@ import {
   Edit,
   useRecordContext,
   EditButton,
+  SearchInput,
 } from "react-admin";
 import { useDataProvider } from "react-admin";
-import { useListContext } from 'react-admin';
-import { ListContextProvider } from 'react-admin';
-import { CheckboxGroupInput } from 'react-admin';
+import { useListContext } from "react-admin";
+import { ListContextProvider } from "react-admin";
+import { CheckboxGroupInput } from "react-admin";
 import { dataProvider } from "../Providers/dataProvider";
-import "./tickets.css"
-
+import "./tickets.css";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 const serviceOptions = {
   Servicios: ["Agua", "Luz", "Teléfono", "Basura", "Limpieza del Aula"],
@@ -70,8 +76,6 @@ const serviceOptions = {
   "Fenómeno meteorológico": ["Inundaciones", "Incendios", "Sismos"],
 };
 
-
-
 export const TicketsCreate = () => {
   const [classification, setClassification] = useState("");
   const [services, setServices] = useState([]);
@@ -103,9 +107,11 @@ export const TicketsCreate = () => {
             { id: "privada", name: "Privada" },
             { id: "publica", name: "Pública" },
           ]}
-          onChange={(e) => setAula(e.target.value)}  
+          onChange={(e) => setAula(e.target.value)}
         />
-        {aula === "publica" && <TextInput source="oficio" label="Número de Oficio" />}
+        {aula === "publica" && (
+          <TextInput source="oficio" label="Número de Oficio" />
+        )}
         <SelectInput
           source="clasificacion"
           choices={Object.keys(serviceOptions).map((key) => ({
@@ -131,27 +137,33 @@ export const TicketsCreate = () => {
             { id: "intermedio", name: "Intermedio" },
           ]}
         />
-        <TextInput source="descripcion" multiline rows={5}/>
+        <TextInput source="descripcion" multiline rows={5} />
       </SimpleForm>
     </Create>
   );
 };
 
-
-
 const PostTitle = () => {
   const record = useRecordContext();
-  return <span>Post {record ? `"${record.id}"` : ''}</span>;
+  return <span>Post {record ? `"${record.id}"` : ""}</span>;
 };
-
 
 export const TicketsEdit = () => (
   <Edit>
     <SimpleForm warnWhenUnsavedChanges>
-      <TextInput label="Qué, cómo y si no se
-resolvió ¿por qué?" source="detalles" />
-      <NumberInput label="Tiempo de Resolución (días)" source="tiempoResolucion" />
-      <NumberInput label="Número de intermediarios" source="numIntermediarios" />
+      <TextInput
+        label="Qué, cómo y si no se
+resolvió ¿por qué?"
+        source="detalles"
+      />
+      <NumberInput
+        label="Tiempo de Resolución (días)"
+        source="tiempoResolucion"
+      />
+      <NumberInput
+        label="Número de intermediarios"
+        source="numIntermediarios"
+      />
       <DateInput source="fechaDeResolucion" defaultValue={new Date()} />
       <BooleanInput label="Finished" source="finished" />
     </SimpleForm>
@@ -165,99 +177,125 @@ export const TicketsList = () => {
   const [error, setError] = useState();
   const [filters, setFilters] = useState({});
   const dataProvider = useDataProvider();
-  const [clasificacion, setClasificacion] = useState('');
+  const [clasificacion, setClasificacion] = useState("");
+  // const [filteredData, setFilteredData] = useState([]);
+  const [orderedData, setOrderedData] = useState({});
+  const storedData = useRef({});
+
+  const TicketFilters = [
+    <SearchInput source="id" />,
+    <TextInput source="clasificacion" label="Clasificacion" />,
+  ];
 
 
   useEffect(() => {
-    console.log("Filters:", filters);
-      dataProvider.getList('tickets', {
-          pagination: { page: 1, perPage: 10 },
-          sort: { field: 'id', order: 'ASC' },
-          filter: filters,
+    dataProvider
+      .getList("tickets", {
+        pagination: { page: 1, perPage: 10 },
+        sort: { field: "id", order: "ASC" },
       })
-      .then(response => {
-  
-          const transformedData = response.data.reduce((acc, cur) => {
-              acc[cur.id] = cur;
-              return acc;
-          }, {});
-          console.log('Transformed Data:', transformedData);
-          console.log('Ids:', Object.keys(transformedData).map(Number));
-          setData(transformedData);
-          setIds(Object.keys(transformedData).map(Number));
-          setLoading(false);
+      .then((response) => {
+        const transformedData = response.data.reduce((acc, cur) => {
+          acc[cur.id] = cur;
+          return acc;
+        }, {});
+
+        // Store the data in the ref
+        storedData.current = transformedData;
+
+        // Update the state to trigger a re-render if needed
+        setData(transformedData);
+        setLoading(false);
       })
-      .catch(error => {
-          console.error('Error fetching data:', error);
-          setError(error);
-          setLoading(false);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
       });
-  }, [dataProvider, filters, clasificacion]);
+  }, [dataProvider]);
 
-  const handleFilterClick = (newFilters) => {
-    setFilters(newFilters);
-  };
+  // Apply filters from TicketFilters
+  const filteredData = Object.keys(data).filter((id) => {
+    const record = data[id];
+    const idFilter = TicketFilters[0].props.record
+      ? record.id.toString().includes(TicketFilters[0].props.record)
+      : true;
+    const clasificacionFilter = TicketFilters[1].props.record
+      ? record.clasificacion.includes(TicketFilters[1].props.record)
+      : true;
+    
+    // return TicketFilters.finished ? data[id].finished : true;
 
-  const handleClassificationChange = (e) => {
-    const newClassification = e.target.value;
-    console.log("Selected Classification:", newClassification);
-    setClasificacion(newClassification);
-    setFilters({ ...filters, clasificacion: newClassification });
-  };
+    return idFilter && clasificacionFilter;
+  });
+ 
+
   
-
+  // const bull = (
+  //   <Box
+  //     component="span"
+  //     sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+  //   >
+  //     •
+  //   </Box>
+  // );
 
   if (loading) {
-      return <div>Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-      return <div>Error loading data</div>;
+    return <div>Error loading data</div>;
   }
 
-  
-  console.log("Los ids: ", ids);
 
   return (
     <ListContextProvider value={{ data, ids }}>
-     
-        <List>
-          <div>
-            <div className="dropdowns">
-            <select
-             value={clasificacion}  
-             onChange={handleClassificationChange}
-          >
-            <option value="">Select Classification</option>
-            {Object.keys(serviceOptions).map((classification) => (
-              <option key={classification} value={classification}>
-                {classification}
-              </option>
-            ))}
-          </select>
-            </div>
-          </div>
-        <div className="buttons">
-      <button className="ticket-button" onClick={() => handleFilterClick({ finished: true })}>
-        Tickets Terminados
-      </button>
-      <button className="ticket-button" onClick={() => handleFilterClick({ finished: false })}>
-        Tickets Sin Terminar
-      </button>
-      <button className="ticket-button" onClick={() => handleFilterClick({})}>Clear Filters</button>
-      </div>
-          <div className="grid-container">
-              {ids.map(id => (
-                  <div key={id} className="grid-item">
-                      <div className="id">ID: <TextField record={data[id]} source="id" /></div>
-                      <div className="clasificacion">Clasificación: <TextField record={data[id]} source="clasificacion" /></div>
-                      <div className="incidencia">Tipo de Incidencia: <TextField record={data[id]} source="tipoDeIncidencia" /></div>
-                      <div className="fecha">Fecha de Creación: <DateField record={data[id]} source="fechaDeCreacion" /></div>
-                      <div className="edit"><EditButton basePath={'/tickets'} record={data[id]} /></div>
-                  </div>
-              ))}
-          </div>
-        </List>
+      <List filters={TicketFilters}>
+        <Datagrid>
+          <TextField label="ID" source="id" />
+          <TextField label="Clasificación" source="clasificacion" />
+          <TextField label="Tipo de Incidencia" source="tipoDeIncidencia" />
+          <DateField label="Fecha de Creación" source="fechaDeCreacion" />
+          <EditButton basePath="/tickets" />
+        </Datagrid>
+      </List>
     </ListContextProvider>
-);
+  );
 };
+
+{/* <div className="cards-container">
+{filteredData.map((id) => (
+  <Card key={id} sx={{ minWidth: 275, margin: "16px" }}>
+    <CardContent>
+      <Typography
+        sx={{ fontSize: 22 }}
+        color="text.primary"
+        gutterBottom
+      >
+        <TextField label="ID" source="id" record={data[id]} />
+      </Typography>
+      <Typography variant="h5" component="div">
+        <TextField
+          label="Clasificación"
+          source="clasificacion"
+          record={data[id]}
+        />
+      </Typography>
+
+      <TextField
+        label="Tipo de Incidencia"
+        source="tipoDeIncidencia"
+        record={data[id]}
+      />
+      <Typography sx={{ mb: 1.5 }} color="text.secondary">
+      <DateField
+        label="Fecha de Creación"
+        source="fechaDeCreacion"
+        record={data[id]}
+      />
+      </Typography>
+    </CardContent>
+    <EditButton basePath="/tickets" record={data[id]} />
+  </Card>
+))}
+</div> */}
