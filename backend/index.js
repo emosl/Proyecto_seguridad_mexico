@@ -160,6 +160,11 @@ app.get("/tickets", async (request, response) => {
       findUser["id"] = Number(request.query.id);
       console.log("findUser de id ", findUser);
     }
+    if ("clasificacion" in request.query) {
+      // If "prioridad" is present in the query, filter by it
+      console.log("Filtering by Clasificacion:", request.query.clasificacion);
+      findUser["clasificacion"] = request.query.clasificacion;
+    }
 
     if ("_sort" in request.query){
       let sortBy=request.query._sort;

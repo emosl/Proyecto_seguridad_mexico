@@ -168,6 +168,7 @@ export const TicketsList = () => {
   const dataProvider = useDataProvider();
   const [clasificacion, setClasificacion] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [orderedData, setOrderedData] = useState({});
 
 
 
@@ -214,10 +215,26 @@ export const TicketsList = () => {
     // <SearchInput source="aula"/>,
     <SearchInput source="id"/>,
     // // <SelectInput source="prioridad" label="Prioridad" choices={prioridadChoices} />,
-    <SelectInput source="clasificacion" label="Clasificacion" choices={["Agua","Digital"]} />,
+    <TextInput source="clasificacion" label="Clasificacion" />,
     // <SelectInput source="tipo" label="Tipo" choices={tipoChoicesMapping} />
 ];
 
+useEffect(() => {
+  // Filter the data and store it in the filteredData state
+  const filteredIds = Object.keys(orderedData).filter(id => {
+    // Add your filter conditions here
+    // For example, filter by 'clasificacion' and 'finished' status
+    if (
+      orderedData[id].clasificacion === filters.clasificacion &&
+      orderedData[id].finished === filters.finished
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  setFilteredData(filteredIds);
+}, [orderedData, filters]);
 
   
   if (loading) {
@@ -258,17 +275,13 @@ export const TicketsList = () => {
       </button>
       <button className="ticket-button" onClick={() => handleFilterClick({})}>Clear Filters</button>
       </div>
-          <div className="grid-container">
-              {ids.map(id => (
-                  <div key={id} className="grid-item">
-                      <div className="id">ID: <TextField record={data[id]} source="id" /></div>
-                      <div className="clasificacion">Clasificación: <TextField record={data[id]} source="clasificacion" /></div>
-                      <div className="incidencia">Tipo de Incidencia: <TextField record={data[id]} source="tipoDeIncidencia" /></div>
-                      <div className="fecha">Fecha de Creación: <DateField record={data[id]} source="fechaDeCreacion" /></div>
-                      <div className="edit"><EditButton basePath={'/tickets'} record={data[id]} /></div>
-                  </div>
-              ))}
-          </div>
+      <Datagrid>
+          <TextField source="id" />
+          <TextField source="clasificacion" />
+          <TextField source="tipoDeIncidencia" />
+          <DateField source="fechaDeCreacion" />
+          <EditButton/>
+        </Datagrid>
         </List>
     </ListContextProvider>
 );
