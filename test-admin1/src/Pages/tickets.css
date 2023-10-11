@@ -1,27 +1,29 @@
-.grid-container {
+.custom-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-    gap: 20px; 
-    padding: 20px;
+    grid-template-columns: repeat(4, 1fr); /* This will create 4 columns per row */
+    gap: 20px; /* Adjust the space between items */
+    padding: 20px; /* Added padding around the grid for better spacing */
   }
   
   .grid-item {
     border: 1px solid #ccc;
     padding: 20px;
-    border-radius: 5px;
-    background-color: #f9f9f9; /* Adjust the background color as needed */
-  }
-
-.buttons{
-    color: #ccc;
-    padding: 10px;
-
-}
-
-.ticket-button{
+    box-sizing: border-box;
+    display: flex;
     flex-direction: column;
-    padding: 10px;
-    margin: 5px;
-
-}
-
+    align-items: center;
+    border-radius: 10px; /* Added rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow */
+    transition: box-shadow 0.3s ease-in-out; /* Added transition for a smooth shadow effect on hover */
+    background-color: white; /* Added a background color */
+  }
+  
+  .grid-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darken shadow on hover for an interactive effect */
+  }
+  
+  .value-text {
+    font-size: 20px;
+    color: #333; /* Adjusted text color for better readability */
+  }
+  

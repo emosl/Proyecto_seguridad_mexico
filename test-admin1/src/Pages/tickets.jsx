@@ -170,132 +170,86 @@ resolvió ¿por qué?"
   </Edit>
 );
 
+
 export const TicketsList = () => {
   const [data, setData] = useState({});
-  const [ids, setIds] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
-  const [filters, setFilters] = useState({});
   const dataProvider = useDataProvider();
-  const [clasificacion, setClasificacion] = useState("");
-  // const [filteredData, setFilteredData] = useState([]);
-  const [orderedData, setOrderedData] = useState({});
-  const storedData = useRef({});
-
-  const TicketFilters = [
-    <SearchInput source="id" />,
-    <TextInput source="clasificacion" label="Clasificacion" />,
-  ];
-
+  const [filters, setFilters] = useState({ id: '', clasificacion: '' });
 
   useEffect(() => {
     dataProvider
-      .getList("tickets", {
+      .getList('tickets', {
         pagination: { page: 1, perPage: 10 },
-        sort: { field: "id", order: "ASC" },
+        sort: { field: 'id', order: 'ASC' },
       })
       .then((response) => {
-        const transformedData = response.data.reduce((acc, cur) => {
-          acc[cur.id] = cur;
-          return acc;
-        }, {});
-
-        // Store the data in the ref
-        storedData.current = transformedData;
-
-        // Update the state to trigger a re-render if needed
-        setData(transformedData);
+        setData(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
         setLoading(false);
       });
   }, [dataProvider]);
 
-  // Apply filters from TicketFilters
-  const filteredData = Object.keys(data).filter((id) => {
-    const record = data[id];
-    const idFilter = TicketFilters[0].props.record
-      ? record.id.toString().includes(TicketFilters[0].props.record)
-      : true;
-    const clasificacionFilter = TicketFilters[1].props.record
-      ? record.clasificacion.includes(TicketFilters[1].props.record)
-      : true;
-    
-    // return TicketFilters.finished ? data[id].finished : true;
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
 
+  const filteredData = Object.values(data).filter((item) => {
+    const idFilter = filters.id ? item.id.toString().includes(filters.id) : true;
+    const clasificacionFilter = filters.clasificacion
+      ? item.clasificacion.includes(filters.clasificacion)
+      : true;
+  
     return idFilter && clasificacionFilter;
   });
- 
-
   
-  // const bull = (
-  //   <Box
-  //     component="span"
-  //     sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  //   >
-  //     •
-  //   </Box>
-  // );
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const TicketFilters = [
+    <SearchInput
+      source="id"
+      value={filters.id}
+      onChange={(e) => handleFilterChange('id', e.target.value)}
+    />,
+    <TextInput
+      source="clasificacion"
+      label="Clasificacion"
+      value={filters.clasificacion}
+      onChange={(e) => handleFilterChange('clasificacion', e.target.value)}
+    />,
+    <BooleanInput
+      source="finished"
+      label="Terminado"
+      value={filters.finished}
+      onChange={(e) => handleFilterChange('finished', e.target.value)}
+    />
+    
+  ];
 
-  if (error) {
-    return <div>Error loading data</div>;
-  }
-
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <ListContextProvider value={{ data, ids }}>
+    <ListContextProvider value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}>
       <List filters={TicketFilters}>
-        <Datagrid>
-          <TextField label="ID" source="id" />
-          <TextField label="Clasificación" source="clasificacion" />
-          <TextField label="Tipo de Incidencia" source="tipoDeIncidencia" />
-          <DateField label="Fecha de Creación" source="fechaDeCreacion" />
-          <EditButton basePath="/tickets" />
-        </Datagrid>
+        <div className="custom-grid">
+          {filteredData.map((item) => (
+            <div key={item.id} className="grid-item">
+              <h3>Ticket Information</h3>
+              <div>ID: <span className="value-text"><TextField source="id" record={item} /></span></div>
+              <div>Clasificación: <span className="value-text"><TextField source="clasificacion" record={item} /></span></div>
+              <div>Tipo de Incidencia: <span className="value-text"><TextField source="tipoDeIncidencia" record={item} /></span></div>
+              <div>Fecha de Creación: <span className="value-text"><DateField source="fechaDeCreacion" record={item} /></span></div>
+              <EditButton basePath="/tickets" record={item} />
+            </div>
+          ))}
+        </div>
       </List>
     </ListContextProvider>
   );
+  
+  
+  
 };
 
-{/* <div className="cards-container">
-{filteredData.map((id) => (
-  <Card key={id} sx={{ minWidth: 275, margin: "16px" }}>
-    <CardContent>
-      <Typography
-        sx={{ fontSize: 22 }}
-        color="text.primary"
-        gutterBottom
-      >
-        <TextField label="ID" source="id" record={data[id]} />
-      </Typography>
-      <Typography variant="h5" component="div">
-        <TextField
-          label="Clasificación"
-          source="clasificacion"
-          record={data[id]}
-        />
-      </Typography>
-
-      <TextField
-        label="Tipo de Incidencia"
-        source="tipoDeIncidencia"
-        record={data[id]}
-      />
-      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-      <DateField
-        label="Fecha de Creación"
-        source="fechaDeCreacion"
-        record={data[id]}
-      />
-      </Typography>
-    </CardContent>
-    <EditButton basePath="/tickets" record={data[id]} />
-  </Card>
-))}
-</div> */}
