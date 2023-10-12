@@ -52,7 +52,7 @@ export const App = () => (
       edit={TicketsEdit}
     />
 
-    <Resource
+    {/* <Resource
       name="posts"
       list={PostList}
       edit={PostEdit}
@@ -65,7 +65,7 @@ export const App = () => (
       show={ShowGuesser}
       recordRepresentation="name"
       icon={UserIcon}
-    />
+    /> */}
   </Admin>
 );
 
