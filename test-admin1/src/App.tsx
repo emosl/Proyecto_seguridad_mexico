@@ -5,16 +5,16 @@ import {
   defaultTheme,
   useTheme,
   Layout,
-  useRecordContext, 
+  useRecordContext,
   DeleteButton,
   AdminContext,
-  ListGuesser 
+  ListGuesser,
 } from "react-admin";
-import React from 'react';
+import React from "react";
 import { dataProvider } from "./Providers/dataProvider";
 import { UserList } from "./Pages/users";
 import { PostList, PostEdit, PostCreate } from "./posts";
-import { TicketsCreate, TicketsList , TicketsEdit } from "./Pages/tickets";
+import { TicketsCreate, TicketsList, TicketsEdit } from "./Pages/tickets";
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 import { Dashboard } from "./Pages/Dashboard";
@@ -23,10 +23,10 @@ import { i18nProvider } from "./Providers/i18nProvider";
 import { Button } from "@mui/material";
 import { MyAppBar } from "./components/MyAppBar";
 //import {MyLoginPage} from "./components/MyLoginPage";
-import Login from "./Pages/Login"
-import MyLayout from './Layout/MyLayout';
-import { render, screen } from '@testing-library/react';
-import {describe, expect, test} from '@jest/globals';
+import Login from "./Pages/Login";
+import MyLayout from "./Layout/MyLayout";
+import { render, screen } from "@testing-library/react";
+import { describe, expect, test } from "@jest/globals";
 
 // import { useCanAccess } from '@react-admin/ra-rbac';
 
@@ -40,13 +40,19 @@ export const App = () => (
     dashboard={Dashboard}
     darkTheme={{ palette: { mode: "dark" } }}
   >
-    <Resource name="tickets" 
-    create={TicketsCreate}
-    list={TicketsList}
-    edit={TicketsEdit}
-     />
-     
     <Resource
+      name="dashboard"
+      list={ListGuesser}
+      icon={UserIcon}
+    />
+    <Resource
+      name="tickets"
+      create={TicketsCreate}
+      list={TicketsList}
+      edit={TicketsEdit}
+    />
+
+    {/* <Resource
       name="posts"
       list={PostList}
       edit={PostEdit}
@@ -59,19 +65,16 @@ export const App = () => (
       show={ShowGuesser}
       recordRepresentation="name"
       icon={UserIcon}
-    />
+    /> */}
   </Admin>
 );
 
 export const ThemeToggler = () => {
-    const [theme, setTheme] = useTheme();
-  
-    return (
-      <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-        {theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-      </Button>
-    ); 
+  const [theme, setTheme] = useTheme();
+
+  return (
+    <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      {theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+    </Button>
+  );
 };
-
-
-
