@@ -155,6 +155,7 @@ export const TicketsEdit = () => (
         label="Qué, cómo y si no se
 resolvió ¿por qué?"
         source="detalles"
+        multiline rows={5}
       />
       <NumberInput
         label="Tiempo de Resolución (días)"
@@ -170,28 +171,24 @@ resolvió ¿por qué?"
   </Edit>
 );
 
-
-
 export const TicketsList = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const dataProvider = useDataProvider();
-  const [filters, setFilters] = useState({ id: '', clasificacion: '' });
+  const [filters, setFilters] = useState({ id: "", clasificacion: "" });
 
   useEffect(() => {
     dataProvider
-      .getList('tickets', {
-      .getList('tickets', {
+      .getList("tickets", {
         pagination: { page: 1, perPage: 10 },
-        sort: { field: 'id', order: 'ASC' },
+        sort: { field: "id", order: "ASC" },
       })
       .then((response) => {
         setData(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         setLoading(false);
       });
   }, [dataProvider]);
@@ -201,106 +198,132 @@ export const TicketsList = () => {
   };
 
   const filteredData = Object.values(data).filter((item) => {
-    const idFilter = filters.id ? item.id.toString().includes(filters.id) : true;
-    const clasificacionFilter = filters.clasificacion
-      ? item.clasificacion.includes(filters.clasificacion)
-  const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const filteredData = Object.values(data).filter((item) => {
-    const idFilter = filters.id ? item.id.toString().includes(filters.id) : true;
+    const idFilter = filters.id
+      ? item.id.toString().includes(filters.id)
+      : true;
     const clasificacionFilter = filters.clasificacion
       ? item.clasificacion.includes(filters.clasificacion)
       : true;
-  
-    return idFilter && clasificacionFilter;
+      const finishedFilter = filters.finished !== undefined
+      ? item.finished === filters.finished
+      : true;
+    console.log("finishedFilter", finishedFilter);
+    return idFilter && clasificacionFilter && finishedFilter;
   });
-  
 
   const TicketFilters = [
     <SearchInput
       source="id"
       value={filters.id}
-      onChange={(e) => handleFilterChange('id', e.target.value)}
+      onChange={(e) => handleFilterChange("id", e.target.value)}
     />,
     <TextInput
       source="clasificacion"
       label="Clasificacion"
       value={filters.clasificacion}
-      onChange={(e) => handleFilterChange('clasificacion', e.target.value)}
+      onChange={(e) => handleFilterChange("clasificacion", e.target.value)}
     />,
     <BooleanInput
       source="finished"
       label="Terminado"
-      value={filters.finished}
-      onChange={(e) => handleFilterChange('finished', e.target.value)}
-    />
-    
-  ];
-
-  if (loading) return <div>Loading...</div>;
-  const TicketFilters = [
-    <SearchInput
-      source="id"
-      value={filters.id}
-      onChange={(e) => handleFilterChange('id', e.target.value)}
+      value={Boolean(filters.finished)}
+      onChange={(e) => handleFilterChange("finished", e.target.value)}
     />,
-    <TextInput
-      source="clasificacion"
-      label="Clasificacion"
-      value={filters.clasificacion}
-      onChange={(e) => handleFilterChange('clasificacion', e.target.value)}
-    />,
-    <BooleanInput
-      source="finished"
-      label="Terminado"
-      value={filters.finished}
-      onChange={(e) => handleFilterChange('finished', e.target.value)}
-    />
-    
   ];
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <ListContextProvider value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}>
-    <ListContextProvider value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}>
-      <List filters={TicketFilters}>
-        <div className="custom-grid">
-          {filteredData.map((item) => (
-            <div key={item.id} className="grid-item">
-              <h3>Ticket Information</h3>
-              <div>ID: <span className="value-text"><TextField source="id" record={item} /></span></div>
-              <div>Clasificación: <span className="value-text"><TextField source="clasificacion" record={item} /></span></div>
-              <div>Tipo de Incidencia: <span className="value-text"><TextField source="tipoDeIncidencia" record={item} /></span></div>
-              <div>Fecha de Creación: <span className="value-text"><DateField source="fechaDeCreacion" record={item} /></span></div>
-              <EditButton basePath="/tickets" record={item} />
-            </div>
-          ))}
-        </div>
-        <div className="custom-grid">
-          {filteredData.map((item) => (
-            <div key={item.id} className="grid-item">
-              <h3>Ticket Information</h3>
-              <div>ID: <span className="value-text"><TextField source="id" record={item} /></span></div>
-              <div>Clasificación: <span className="value-text"><TextField source="clasificacion" record={item} /></span></div>
-              <div>Tipo de Incidencia: <span className="value-text"><TextField source="tipoDeIncidencia" record={item} /></span></div>
-              <div>Fecha de Creación: <span className="value-text"><DateField source="fechaDeCreacion" record={item} /></span></div>
-              <EditButton basePath="/tickets" record={item} />
-            </div>
-          ))}
-        </div>
-      </List>
-    </ListContextProvider>
+    <ListContextProvider
+  value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}
+>
+  <List filters={TicketFilters}>
+    <div className="cards-container" style={{ display: 'flex', flexWrap: 'wrap', padding: '10px' }}>
+      {filteredData.map((item) => (
+        <Box sx={{
+          minWidth: 275,
+          height: 'auto', // Change height to 'auto'
+          width: '250px',
+          marginRight: '16px',
+          marginBottom: '16px',
+          display: 'flex', // Add display: flex
+          flexDirection: 'column', // Add flexDirection: column
+        }}>
+          <Card
+            key={item.id}
+            sx={{ height: "100%" }}
+            variant="outlined"
+          >
+            <React.Fragment>
+              <CardContent>
+                <Typography
+                  sx={{ fontSize: 22 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Id : {item ? `${item.id}` : ""}
+                </Typography>
+                <Typography variant="h5" component="div">
+                  Clasificación : {item ? `${item.clasificacion}` : ""}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  Tipo de Incidencia :{" "}
+                  {item ? `${item.tipoDeIncidencia}` : ""}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  <DateField
+                    label="Fecha de Creación"
+                    source="fechaDeCreacion"
+                    record={item}
+                  />
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <EditButton basePath="/tickets" record={item} />
+              </CardActions>
+            </React.Fragment>
+          </Card>
+        </Box>
+      ))}
+    </div>
+  </List>
+</ListContextProvider>
+
   );
-  
-  
-  
 };
 
-
-  
-  
-  
-};
+// <div className="cards-container">
+// {filteredData.map((item) => (
+//   <Card key={item.id} sx={{ minWidth: 275, margin: "16px" }}>
+//     <CardContent>
+//       <Typography
+//         sx={{ fontSize: 22 }}
+//         color="text.primary"
+//         gutterBottom
+//       >
+//         <TextField label="ID" source="id" record={item}/>
+//       </Typography>
+//       <Typography variant="h5" component="div">
+//         <TextField
+//           label="Clasificación"
+//           source="clasificacion"
+//           record={item}
+//         />
+//       </Typography>
+//       <TextField
+//         label="Tipo de Incidencia"
+//         source="tipoDeIncidencia"
+//         record={item}
+//       />
+//       <Typography sx={{ mb: 1.5 }} color="text.secondary">
+//       <DateField
+//         label="Fecha de Creación"
+//         source="fechaDeCreacion"
+//         record={item}
+//       />
+//       </Typography>
+//     </CardContent>
+//     <EditButton basePath="/tickets" record={item} />
+//   </Card>
+// ))}
+// </div>
