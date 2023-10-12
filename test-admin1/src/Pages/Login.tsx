@@ -30,6 +30,8 @@ export const Login: React.FC = () => {
 
   return (
     <body className="body">
+
+      <div className="fotobg"> 
       <div className="wrapper">
         <span className="bg-animate"></span>
 
@@ -41,7 +43,8 @@ export const Login: React.FC = () => {
           width="500"
           height="300"
         />
-      </div>
+        </div>
+      
 
         <div className="form-box login">
           <form onSubmit={handleSubmit}>
@@ -74,10 +77,8 @@ export const Login: React.FC = () => {
         </div>
 
        
-
       </div>
-
-
+      </div>
     </body>
   );
 };
