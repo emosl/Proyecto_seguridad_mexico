@@ -135,11 +135,12 @@ app.get("/tickets", async (request, response) => {
       .findOne({ usuario: verify.usuario });
 
     let findUser = {};
-    if (request.query.finished === "true") {
-      findUser.finished = true;
-    } else if (request.query.finished === "false") {
-      findUser.finished = { $ne: true };
-    }
+    // if (request.query.finished === "true") {
+    //   findUser.finished = true;
+    //   request.query.finished = true;
+    // } else if (request.query.finished === "false") {
+    //   findUser.finished = { $ne: true };
+    // }
     if (user.rol == "coolaborador") {
       findUser["usuario"] = verify.usuario;
     }
@@ -148,21 +149,21 @@ app.get("/tickets", async (request, response) => {
     // } else if (user.rol == "ejecutivo") {
     //   findUser["usuario"] = verify.usuario;
     // }
-    if ("prioridad" in request.query) {
-      // If "prioridad" is present in the query, filter by it
-      console.log("Filtering by Prioridad:", request.query.prioridad);
-      findUser["prioridad"] = request.query.prioridad;
-    }
-    if ("id" in request.query) {
-      console.log("Filtering by ID:", request.query.id);
-      findUser["id"] = Number(request.query.id);
-      console.log("findUser de id ", findUser);
-    }
-    if ("clasificacion" in request.query) {
-      // If "prioridad" is present in the query, filter by it
-      console.log("Filtering by Clasificacion:", request.query.clasificacion);
-      findUser["clasificacion"] = request.query.clasificacion;
-    }
+    // if ("prioridad" in request.query) {
+    //   // If "prioridad" is present in the query, filter by it
+    //   console.log("Filtering by Prioridad:", request.query.prioridad);
+    //   findUser["prioridad"] = request.query.prioridad;
+    // }
+    // if ("id" in request.query) {
+    //   console.log("Filtering by ID:", request.query.id);
+    //   findUser["id"] = Number(request.query.id);
+    //   console.log("findUser de id ", findUser);
+    // }
+    // if ("clasificacion" in request.query) {
+    //   // If "prioridad" is present in the query, filter by it
+    //   console.log("Filtering by Clasificacion:", request.query.clasificacion);
+    //   findUser["clasificacion"] = request.query.clasificacion;
+    // }
 
     if ("_sort" in request.query) {
       let sortBy = request.query._sort;

@@ -26,7 +26,7 @@ import { useListContext } from "react-admin";
 import { ListContextProvider } from "react-admin";
 import { CheckboxGroupInput } from "react-admin";
 import { dataProvider } from "../Providers/dataProvider";
-import "./tickets.css";
+// import "./tickets.css";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -175,9 +175,10 @@ export const TicketsList = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const dataProvider = useDataProvider();
-  const [filters, setFilters] = useState({ id: "", clasificacion: "" });
+  const [filters, setFilters] = useState({ id: "", clasificacion: "", finished: false });
 
   useEffect(() => {
+    console.log("filters data P", filters)
     dataProvider
       .getList("tickets", {
         pagination: { page: 1, perPage: 10 },
@@ -194,49 +195,68 @@ export const TicketsList = () => {
   }, [dataProvider]);
 
   const handleFilterChange = (key, value) => {
+    console.log("key", key)
+    console.log("value", value)
     setFilters((prev) => ({ ...prev, [key]: value }));
+    console.log("filters", filters)
   };
 
   const filteredData = Object.values(data).filter((item) => {
+    console.log("item",item)
+    console.log("filters", filters)
     const idFilter = filters.id
       ? item.id.toString().includes(filters.id)
       : true;
     const clasificacionFilter = filters.clasificacion
       ? item.clasificacion.includes(filters.clasificacion)
       : true;
-      const finishedFilter = filters.finished !== undefined
-      ? item.finished === filters.finished
-      : true;
+    const finishedFilter = filters.finished ? item.finished == true : true;
     console.log("finishedFilter", finishedFilter);
     return idFilter && clasificacionFilter && finishedFilter;
   });
 
   const TicketFilters = [
-    <SearchInput
+    <SearchInput 
+      alwaysOn
       source="id"
       value={filters.id}
       onChange={(e) => handleFilterChange("id", e.target.value)}
+      onClick={(e) => handleFilterChange("id", "")}
+      // onHide={(e) => handleFilterChange("id", "")}
+      
     />,
     <TextInput
       source="clasificacion"
       label="Clasificacion"
       value={filters.clasificacion}
       onChange={(e) => handleFilterChange("clasificacion", e.target.value)}
+      onClick={(e) => handleFilterChange("clasificacion", "")}
     />,
     <BooleanInput
       source="finished"
       label="Terminado"
-      value={Boolean(filters.finished)}
-      onChange={(e) => handleFilterChange("finished", e.target.value)}
+      value={filters.finished}
+      onChange={(e) => handleFilterChange("finished", e.target.checked)}
+      onClick={(e) => handleFilterChange("finished", "")}
     />,
   ];
 
   if (loading) return <div>Loading...</div>;
 
+  const ListToolbar = () => (
+    <Stack direction="row" justifyContent="space-between">
+        <FilterForm filters={TicketFilters} />
+        <div>
+            <FilterButton filters={TicketFilters} />
+            <CreateButton />
+        </div>
+    </Stack>
+)
+
   return (
-    <ListContextProvider
-  value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}
->
+//     <ListContextProvider
+//   value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}
+// >
   <List filters={TicketFilters}>
     <div className="cards-container" style={{ display: 'flex', flexWrap: 'wrap', padding: '10px' }}>
       {filteredData.map((item) => (
@@ -287,7 +307,7 @@ export const TicketsList = () => {
       ))}
     </div>
   </List>
-</ListContextProvider>
+// </ListContextProvider>
 
   );
 };
