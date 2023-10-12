@@ -4,7 +4,8 @@ import { MongoClient } from "mongodb";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
+import https from "https";
+import fs from "fs"; 
 // let db;
 // const app = express(); // create express app, executes functions
 // app.use(cors());
@@ -368,3 +369,8 @@ app.get("/dashboard", async (request, response) => {
     response.sendStatus(401);
   }
 });
+
+https.createServer({cert: fs.readFileSync("./backend.cer"), key: fs.readFileSync("./backend.key")}, app).listen(3000, ()=>{
+  connectDB();
+  console.log("Servidor escuchando en puerto 8000")
+})
