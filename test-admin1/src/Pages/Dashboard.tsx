@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import MyPieChart, { MyBarChart } from "./PieChart"; // Adjust the path as per your project structure
+import {GraficaNivelPrioridad,GraficaClasificacion, GraficaTerminados , GraficaIntermediarios, GraficaPromedioDias} from "./Chart";
 
 export const Dashboard = () => {
   return (
@@ -8,21 +8,33 @@ export const Dashboard = () => {
       style={{ display: "flex", flexWrap: "wrap", padding: "20px" }}
     >
       <Card>
-        <CardHeader title="Categorias" />
+        <CardHeader/>
         <CardContent>
-          <Typography sx={{ fontSize: 22 }} color="text.secondary" gutterBottom>
-            Lorem ipsum sic dolor amet...
-          </Typography>
-          <MyPieChart />
+          <GraficaNivelPrioridad />
         </CardContent>
       </Card>
       <Card>
-        <CardHeader title="Top usuarios" />
+        <CardHeader/>
         <CardContent>
-        <Typography sx={{ fontSize: 22 }} color="text.secondary" gutterBottom>
-            Lorem ipsum sic dolor amet...
-          </Typography>
-          <MyBarChart />
+          <GraficaClasificacion />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader/>
+        <CardContent>
+          <GraficaTerminados />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader/>
+        <CardContent>
+          <GraficaIntermediarios/>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader/>
+        <CardContent>
+          <GraficaPromedioDias/>
         </CardContent>
       </Card>
     </div>

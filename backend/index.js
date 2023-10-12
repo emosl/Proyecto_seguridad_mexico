@@ -9,18 +9,24 @@ import jwt from "jsonwebtoken";
 // const app = express(); // create express app, executes functions
 // app.use(cors());
 // app.use(bodyParser.json());
-
+const uri = "mongodb+srv://Emo123:Emo123@ticketsystem.z9f1jjv.mongodb.net/";
 let db;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+const client = new MongoClient(uri);
 
 async function connectDB() {
-  let client = new MongoClient("mongodb://localhost:27017/ticket_system");
-  await client.connect();
-  db = client.db();
-  console.log("Database connected.");
+  try {
+    await client.connect();
+    db = client.db("ticket_system");
+    console.log("Connected to the database");
+  } catch (error) {
+    console.error("Failed to connect to the database", error);
+  }
 }
+connectDB();
+
 
 // async function log(sujeto, accion, objeto){
 //   log={};
@@ -39,6 +45,7 @@ app.post("/login", async (req, res) => {
   let pass = req.body.contraseña;
   let data = await db.collection("Users").findOne({ usuario: user });
   if (data == null) {
+    console.log("")
     res.sendStatus(401);
   } else {
     bcrypt.genSalt(10, (error, salt) => {

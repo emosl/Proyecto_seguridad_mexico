@@ -100,6 +100,7 @@ export const TicketsCreate = () => {
   return (
     <Create onSuccess={onSuccess}>
       <SimpleForm>
+        <BooleanInput source="finished" defaultValue={false} disabled />
         <DateInput source="fechaDeCreacion" defaultValue={new Date()} />
         <SelectInput
           source="aula"
@@ -112,6 +113,7 @@ export const TicketsCreate = () => {
         {aula === "publica" && (
           <TextInput source="oficio" label="Número de Oficio" />
         )}
+        <TextInput source="Número de Aula" />
         <SelectInput
           source="clasificacion"
           choices={Object.keys(serviceOptions).map((key) => ({
@@ -181,7 +183,7 @@ export const TicketsList = () => {
     console.log("filters data P", filters)
     dataProvider
       .getList("tickets", {
-        pagination: { page: 1, perPage: 10 },
+        pagination: { page: 1, perPage: 1000 },
         sort: { field: "id", order: "ASC" },
       })
       .then((response) => {
@@ -216,9 +218,10 @@ export const TicketsList = () => {
   });
 
   const TicketFilters = [
-    <SearchInput 
+    <TextInput
       alwaysOn
       source="id"
+      label="ID"
       value={filters.id}
       onChange={(e) => handleFilterChange("id", e.target.value)}
       onClick={(e) => handleFilterChange("id", "")}
@@ -226,6 +229,7 @@ export const TicketsList = () => {
       
     />,
     <TextInput
+      alwaysOn
       source="clasificacion"
       label="Clasificacion"
       value={filters.clasificacion}
@@ -257,7 +261,7 @@ export const TicketsList = () => {
 //     <ListContextProvider
 //   value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}
 // >
-  <List filters={TicketFilters}>
+  <List filters={TicketFilters} disableSaveQuery>
     <div className="cards-container" style={{ display: 'flex', flexWrap: 'wrap', padding: '10px' }}>
       {filteredData.map((item) => (
         <Box sx={{

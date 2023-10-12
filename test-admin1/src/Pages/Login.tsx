@@ -12,6 +12,7 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ export const Login: React.FC = () => {
   return (
     <body className="body">
 
-      <div className="fotobg"> 
+      <div className="fotobg"> </div>
       <div className="wrapper">
         <span className="bg-animate"></span>
 
@@ -77,7 +78,6 @@ export const Login: React.FC = () => {
         </div>
 
        
-      </div>
       </div>
     </body>
   );
