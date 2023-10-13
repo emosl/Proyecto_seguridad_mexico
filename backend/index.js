@@ -307,72 +307,73 @@ app.delete("/tickets/:id", async (request, response) => {
   }
 });
 
-app.get("/dashboard", async (request, response) => {
-  try {
-    let token = request.get("Authentication");
+// app.get("/dashboard", async (request, response) => {
+//   try {
+//     let token = request.get("Authentication");
 
-    let verify = await jwt.verify(token, "secretKey");
-    let user = await db
-      .collection("Users")
-      .findOne({ usuario: verify.usuario });
+//     let verify = await jwt.verify(token, "secretKey");
+//     let user = await db
+//       .collection("Users")
+//       .findOne({ usuario: verify.usuario });
 
-    let findUser = {};
-    if (request.query.finished === "true") {
-      findUser.finished = true;
-    } else if (request.query.finished === "false") {
-      findUser.finished = { $ne: true };
-    }
-    if (user.rol == "coolaborador") {
-      findUser["usuario"] = verify.usuario;
-    }
-    if ("_sort" in request.query) {
-      let sortBy = request.query._sort;
-      console.log("sortBy", sortBy);
-      let sortOrder = request.query._order == "ASC" ? 1 : -1;
-      console.log("sortOrder", sortOrder);
-      let start = Number(request.query._start);
-      console.log("start", start);
-      let end = Number(request.query._end);
-      console.log("end", end);
-      let sorter = {};
-      sorter[sortBy] = sortOrder;
-      console.log("sorter", sorter);
-      console.log("findUser", findUser);
-      let data = await db
-        .collection("Tickets")
-        .find(findUser)
-        .sort(sorter)
-        .project({ _id: 0 })
-        .toArray();
-      // console.log("data", data);
-      response.set("Access-Control-Expose-Headers", "X-Total-Count");
-      response.set("X-Total-Count", data.length);
-      data = data.slice(start, end);
-      response.json(data);
-      console.log("data", data);
-    } else if ("id" in request.query) {
-      let data = [];
-      for (let index = 0; index < request.query.id.length; index++) {
-        let dataObtain = await db
-          .collection("Users")
-          .find({ id: Number(request.query.id[index]) })
-          .project({ _id: 0 })
-          .toArray();
-        data = await data.concat(dataObtain);
-      }
-      response.json(data);
-    } else {
-      let data = [];
-      data = await db
-        .collection("Tickets")
-        .find(request.query)
-        .project({ _id: 0 })
-        .toArray();
-      response.set("Access-Control-Expose-Headers", "X-Total-Count");
-      response.set("X-Total-Count", data.length);
-      response.json(data);
-    }
-  } catch {
-    response.sendStatus(401);
-  }
-});
+//     let findUser = {};
+//     if (request.query.finished === "true") {
+//       findUser.finished = true;
+//     } else if (request.query.finished === "false") {
+//       findUser.finished = { $ne: true };
+//     }
+//     if (user.rol == "coolaborador") {
+//       findUser["usuario"] = verify.usuario;
+//     }
+//     if ("_sort" in request.query) {
+//       let sortBy = request.query._sort;
+//       console.log("sortBy", sortBy);
+//       let sortOrder = request.query._order == "ASC" ? 1 : -1;
+//       console.log("sortOrder", sortOrder);
+//       let start = Number(request.query._start);
+//       console.log("start", start);
+//       let end = Number(request.query._end);
+//       console.log("end", end);
+//       let sorter = {};
+//       sorter[sortBy] = sortOrder;
+//       console.log("sorter", sorter);
+//       console.log("findUser", findUser);
+//       let data = await db
+//         .collection("Tickets")
+//         .find(findUser)
+//         .sort(sorter)
+//         .project({ _id: 0 })
+//         .toArray();
+//       // console.log("data", data);
+//       response.set("Access-Control-Expose-Headers", "X-Total-Count");
+//       response.set("X-Total-Count", data.length);
+//       data = data.slice(start, end);
+//       response.json(data);
+//       console.log("data", data);
+//     } else if ("id" in request.query) {
+//       let data = [];
+//       for (let index = 0; index < request.query.id.length; index++) {
+//         let dataObtain = await db
+//           .collection("Users")
+//           .find({ id: Number(request.query.id[index]) })
+//           .project({ _id: 0 })
+//           .toArray();
+//         data = await data.concat(dataObtain);
+//       }
+//       response.json(data);
+//     } else {
+//       let data = [];
+//       data = await db
+//         .collection("Tickets")
+//         .find(request.query)
+//         .project({ _id: 0 })
+//         .toArray();
+//       response.set("Access-Control-Expose-Headers", "X-Total-Count");
+//       response.set("X-Total-Count", data.length);
+//       response.json(data);
+//     }
+//   } catch {
+//     response.sendStatus(401);
+//   }
+// });
+

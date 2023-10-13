@@ -1,42 +1,26 @@
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import {GraficaNivelPrioridad,GraficaClasificacion, GraficaTerminados , GraficaIntermediarios, GraficaPromedioDias} from "./Chart";
+import React, { useEffect, useState } from "react";
+import { DashboardEjecutivo} from "./Chart";
+
 
 export const Dashboard = () => {
+  const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const role = localStorage.getItem('userRole');
+    console.log("dashboard role: ", role);
+    setUserRole(role);
+    setLoading(false);
+  }, []);  
+
+
   return (
-    <div
-      className="cards-container"
-      style={{ display: "flex", flexWrap: "wrap", padding: "20px" }}
-    >
-      <Card>
-        <CardHeader/>
-        <CardContent>
-          <GraficaNivelPrioridad />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader/>
-        <CardContent>
-          <GraficaClasificacion />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader/>
-        <CardContent>
-          <GraficaTerminados />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader/>
-        <CardContent>
-          <GraficaIntermediarios/>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader/>
-        <CardContent>
-          <GraficaPromedioDias/>
-        </CardContent>
-      </Card>
+    <div>
+      {userRole === 'ejecutivo' && (
+        <div>
+          <DashboardEjecutivo />
+        </div>
+      )}
     </div>
   );
 };

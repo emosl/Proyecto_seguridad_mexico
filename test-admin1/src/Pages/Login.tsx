@@ -5,29 +5,53 @@ import "./Login.css";
 import "./App.css";
 import { url } from "inspector";
 
+// export const Login: React.FC = () => {
+//   const login = useLogin();
+//   const notify = useNotify();
+
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [rememberMe, setRememberMe] = useState(false);
+  
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     try {
+//       await login({ username: email, password: password });
+//       // .then(() => {
+//       //     window.location.href = '/tickets';
+//       // })
+//     } catch {
+//       notify("Invalid email or password");
+//     }
+//     // .catch(() => {
+//     //     notify('Invalid email or password');
+//     // });
+//   };
 export const Login: React.FC = () => {
   const login = useLogin();
   const notify = useNotify();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  
+  const [userRole, setUserRole] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login({ username: email, password: password });
-      // .then(() => {
-      //     window.location.href = '/tickets';
-      // })
+        const auth = await login({ username: email, password: password });
+        console.log("Auth Response:", auth); 
+
+        if (auth && auth.rol) {
+            setUserRole(auth.rol);
+            localStorage.setItem('userRole', auth.rol);
+            console.log("User Role:", auth.rol);
+        }
     } catch {
-      notify("Invalid email or password");
+        notify("Invalid email or password");
     }
-    // .catch(() => {
-    //     notify('Invalid email or password');
-    // });
-  };
+};
+
 
   return (
     <body className="body">
