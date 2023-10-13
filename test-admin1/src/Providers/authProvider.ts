@@ -22,7 +22,8 @@ export const authProvider: AuthProvider = {
             localStorage.setItem('identity',  JSON.stringify({"username": auth.usuario,  "nombre":auth.nombre}));
             localStorage.setItem('username',  auth.usuario);
             localStorage.setItem('rol',  auth.rol);
-            return Promise.resolve()
+            // return Promise.resolve()
+            return Promise.resolve(auth);
         } catch {
             throw new Error('Error en usuario o password');
         }
@@ -32,6 +33,7 @@ export const authProvider: AuthProvider = {
         localStorage.removeItem("username");
         localStorage.removeItem("rol");
         localStorage.removeItem("identity");
+        localStorage.removeItem("userRole");
         return Promise.resolve();
     },
     // called when the API returns an error

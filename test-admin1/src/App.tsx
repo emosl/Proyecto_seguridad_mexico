@@ -37,20 +37,26 @@ export const App = () => (
     authProvider={authProvider}
     i18nProvider={i18nProvider}
     dataProvider={dataProvider}
-    dashboard={Dashboard}
+    // dashboard={Dashboard}
     darkTheme={{ palette: { mode: "dark" } }}
   >
-    <Resource
+    {/* <Resource
       name="dashboard"
       list={ListGuesser}
       icon={UserIcon}
-    />
+    /> */}
     <Resource
       name="tickets"
       create={TicketsCreate}
       list={TicketsList}
       edit={TicketsEdit}
     />
+
+<Resource
+  name="dashboard"
+  list={Dashboard} // You should create a Dashboard component for rendering the dashboard content// Add an icon for the dashboard
+  options={{ label: "Dashboard" }} // Specify a label for the dashboard
+/>
 
     {/* <Resource
       name="posts"
