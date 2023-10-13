@@ -22,7 +22,14 @@ export const Dashboard = () => {
         </div>
       )}
       {userRole === 'nacional' &&(
-        <div>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          padding: '10px',
+          overflow: 'hidden',
+          width: '100vw',
+          height: '100vh',
+        }}>
           <DashboardNacional />
         </div>
       )}
