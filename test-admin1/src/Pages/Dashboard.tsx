@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DashboardEjecutivo, DashboardNacional} from "./Chart";
+import { DashboardEjecutivo, DashboardNacional, DashboardCoolaborador} from "./Chart";
 
 
 export const Dashboard = () => {
@@ -22,15 +22,13 @@ export const Dashboard = () => {
         </div>
       )}
       {userRole === 'nacional' &&(
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          padding: '10px',
-          overflow: 'hidden',
-          width: '100vw',
-          height: '100vh',
-        }}>
+        <div>
           <DashboardNacional />
+        </div>
+      )}
+      { userRole === 'coolaborador' && (
+        <div>
+          <DashboardCoolaborador />
         </div>
       )}
     </div>
