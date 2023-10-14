@@ -56,7 +56,8 @@ const DashboardEjecutivo = () => {
       <Container style={{ height: "90vh" }}>
         <iframe
           className="colab"
-          src="https://charts.mongodb.com/charts-project-0-dfuas/embed/dashboards?id=6528323b-5356-4526-8c1d-a97e56ce969b&theme=light&autoRefresh=true&maxDataAge=1209600&showTitleAndDesc=false&scalingWidth=fixed&scalingHeight=fixed"          style={{
+          src="https://charts.mongodb.com/charts-project-0-dfuas/embed/dashboards?id=6528323b-5356-4526-8c1d-a97e56ce969b&theme=light&autoRefresh=true&maxDataAge=1209600&showTitleAndDesc=false&scalingWidth=scale&scalingHeight=scale"
+          style={{
             background: "#F1F5F4",
             border: "none",
             borderRadius: "2px",
@@ -71,9 +72,6 @@ const DashboardEjecutivo = () => {
   );
 };
 
-
-
-// src="https://charts.mongodb.com/charts-project-0-dfuas/embed/dashboards?id=6528323b-5356-4526-8c1d-a97e56ce969b&theme=light&autoRefresh=true&maxDataAge=1209600&showTitleAndDesc=false&scalingWidth=scale&scalingHeight=scale"
 
 const DashboardNacional = () => {
   const notify = useNotify();
