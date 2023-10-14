@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DashboardEjecutivo} from "./Chart";
+import { DashboardEjecutivo, DashboardNacional, DashboardCoolaborador} from "./Chart";
 
 
 export const Dashboard = () => {
@@ -19,6 +19,16 @@ export const Dashboard = () => {
       {userRole === 'ejecutivo' && (
         <div>
           <DashboardEjecutivo />
+        </div>
+      )}
+      {userRole === 'nacional' &&(
+        <div>
+          <DashboardNacional />
+        </div>
+      )}
+      { userRole === 'coolaborador' && (
+        <div>
+          <DashboardCoolaborador />
         </div>
       )}
     </div>

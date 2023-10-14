@@ -46,32 +46,18 @@ export const App = () => (
       icon={UserIcon}
     /> */}
     <Resource
+      name="dashboard"
+      list={Dashboard} // You should create a Dashboard component for rendering the dashboard content// Add an icon for the dashboard
+      options={{ label: "Dashboard" }} // Specify a label for the dashboard
+      icon={UserIcon}
+    />
+    <Resource
       name="tickets"
       create={TicketsCreate}
       list={TicketsList}
       edit={TicketsEdit}
     />
 
-<Resource
-  name="dashboard"
-  list={Dashboard} // You should create a Dashboard component for rendering the dashboard content// Add an icon for the dashboard
-  options={{ label: "Dashboard" }} // Specify a label for the dashboard
-/>
-
-    {/* <Resource
-      name="posts"
-      list={PostList}
-      edit={PostEdit}
-      create={PostCreate}
-      icon={PostIcon}
-    />
-    <Resource
-      name="users"
-      list={UserList}
-      show={ShowGuesser}
-      recordRepresentation="name"
-      icon={UserIcon}
-    /> */}
   </Admin>
 );
 
