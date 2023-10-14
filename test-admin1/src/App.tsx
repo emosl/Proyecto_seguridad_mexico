@@ -58,20 +58,6 @@ export const App = () => (
       edit={TicketsEdit}
     />
 
-    {/* <Resource
-      name="posts"
-      list={PostList}
-      edit={PostEdit}
-      create={PostCreate}
-      icon={PostIcon}
-    />
-    <Resource
-      name="users"
-      list={UserList}
-      show={ShowGuesser}
-      recordRepresentation="name"
-      icon={UserIcon}
-    /> */}
   </Admin>
 );
 
