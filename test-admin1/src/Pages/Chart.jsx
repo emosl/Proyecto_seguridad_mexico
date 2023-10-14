@@ -164,7 +164,7 @@ const DashboardCoolaborador = () => {
           color="text.primary"
           gutterBottom
         >
-          Bienvenido a tu dashboard
+          Bienvenid@ a tu dashboard
         </Typography>
         <Typography
           variant="h5"
