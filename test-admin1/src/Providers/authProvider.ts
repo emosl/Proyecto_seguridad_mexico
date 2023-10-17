@@ -1,5 +1,12 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+//imports from react-admin
 import { AuthProvider } from "react-admin";
 
+//authProvider object with 5 methods
+//login, logout, checkError, checkAuth, getPermissions
+//all methods return a Promise
 export const authProvider: AuthProvider = {
     // called when the user attempts to log in
     login: async ({ username, password }) => {

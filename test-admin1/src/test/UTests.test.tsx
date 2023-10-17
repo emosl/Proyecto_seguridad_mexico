@@ -1,4 +1,4 @@
-import {sum} from './sum';
+//imports from react-admin,jest and react
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
@@ -8,30 +8,7 @@ import MyLayout from '../Layout/MyLayout';
 import userEvent from '@testing-library/user-event'
 
 
-// describe('sum module', () => {
-//   test('adds 1 + 2 to equal 3', () => {
-//     expect(sum(1, 2)).toBe(3);
-//   });
-// });
-
-
-
-// describe("my app bar si esta plis ya",  () => {
-//   test("appbar appear ", async () => {
-//     const { container } = render(
-//         <AdminContext>
-//           <MyAppBar />
-//       </AdminContext>
-//       );
-    
-
-//   });
-
-//   const div = screen.getBy
-//   expect(div).toBeInTheDocument();
-
-// });
-
+//test for the MyLayout component
 test.todo ("Revisar Logout "), () => {
     render(
         <AdminContext>

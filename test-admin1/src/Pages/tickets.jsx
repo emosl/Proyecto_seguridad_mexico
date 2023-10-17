@@ -1,3 +1,7 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+//imports from react-admin, material UI and other components
 import React, { useState, useEffect, useRef } from "react";
 import {
   Create,
@@ -34,6 +38,8 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+
+//declarations of ServiceOptions
 const serviceOptions = {
   Servicios: ["Agua", "Luz", "Teléfono", "Basura", "Limpieza del Aula"],
   Digital: [
@@ -76,6 +82,9 @@ const serviceOptions = {
   "Fenómeno meteorológico": ["Inundaciones", "Incendios", "Sismos"],
 };
 
+//Declarations of TicketsCreate, TicketsEdit and TicketsList
+
+//Tickets Create to create a new ticket
 export const TicketsCreate = () => {
   const [classification, setClassification] = useState("");
   const [services, setServices] = useState([]);
@@ -87,16 +96,19 @@ export const TicketsCreate = () => {
   const refresh = useRefresh();
   const redirect = useRedirect();
 
+  //useEffect to set the services according to the classification
   useEffect(() => {
     setServices(serviceOptions[classification] || []);
   }, [classification]);
 
+  //onSuccess function to notify the user that the ticket was created successfully
   const onSuccess = () => {
     notify("Ticket created successfully");
     redirect("/tickets");
     refresh();
   };
 
+  //return of the Create component
   return (
     <Create onSuccess={onSuccess}>
       <SimpleForm>
@@ -145,11 +157,14 @@ export const TicketsCreate = () => {
   );
 };
 
+//PostTittle component to show the title of the ticket
 const PostTitle = () => {
   const record = useRecordContext();
   return <span>Post {record ? `"${record.id}"` : ""}</span>;
 };
 
+
+//Edit the Tickets with the SimpleForm
 export const TicketsEdit = () => (
   <Edit>
     <SimpleForm warnWhenUnsavedChanges>
@@ -173,12 +188,15 @@ resolvió ¿por qué?"
   </Edit>
 );
 
+//TicketList to show the tickets
+//using the List component
 export const TicketsList = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const dataProvider = useDataProvider();
   const [filters, setFilters] = useState({ id: "", clasificacion: "", finished: false });
 
+  //useEffect to get the data from the dataProvider
   useEffect(() => {
     console.log("filters data P", filters)
     dataProvider
@@ -196,6 +214,7 @@ export const TicketsList = () => {
       });
   }, [dataProvider]);
 
+  //handleFilterChange function to handle the filters and set the filters
   const handleFilterChange = (key, value) => {
     console.log("key", key)
     console.log("value", value)
@@ -203,6 +222,8 @@ export const TicketsList = () => {
     console.log("filters", filters)
   };
 
+  //filteredData is the data tha will be mapped to show the tickets
+  //uses filters from the state
   const filteredData = Object.values(data).filter((item) => {
     console.log("item",item)
     console.log("filters", filters)
@@ -217,6 +238,8 @@ export const TicketsList = () => {
     return idFilter && clasificacionFilter && finishedFilter;
   });
 
+  //Ticket Filters to be used in the List component
+  //uses the handleFilterChange function
   const TicketFilters = [
     <TextInput
       alwaysOn
@@ -237,6 +260,7 @@ export const TicketsList = () => {
       onClick={(e) => handleFilterChange("clasificacion", "")}
     />,
     <BooleanInput
+      alwaysOn
       source="finished"
       label="Terminado"
       value={filters.finished}
@@ -247,20 +271,8 @@ export const TicketsList = () => {
 
   if (loading) return <div>Loading...</div>;
 
-  const ListToolbar = () => (
-    <Stack direction="row" justifyContent="space-between">
-        <FilterForm filters={TicketFilters} />
-        <div>
-            <FilterButton filters={TicketFilters} />
-            <CreateButton />
-        </div>
-    </Stack>
-)
-
   return (
-//     <ListContextProvider
-//   value={{ data: filteredData, ids: filteredData.map((item) => item.id) }}
-// >
+
   <List filters={TicketFilters} disableSaveQuery>
     <div className="cards-container" style={{ display: 'flex', flexWrap: 'wrap', padding: '10px' }}>
       {filteredData.map((item) => (
@@ -311,44 +323,7 @@ export const TicketsList = () => {
       ))}
     </div>
   </List>
-// </ListContextProvider>
 
   );
 };
-
-// <div className="cards-container">
-// {filteredData.map((item) => (
-//   <Card key={item.id} sx={{ minWidth: 275, margin: "16px" }}>
-//     <CardContent>
-//       <Typography
-//         sx={{ fontSize: 22 }}
-//         color="text.primary"
-//         gutterBottom
-//       >
-//         <TextField label="ID" source="id" record={item}/>
-//       </Typography>
-//       <Typography variant="h5" component="div">
-//         <TextField
-//           label="Clasificación"
-//           source="clasificacion"
-//           record={item}
-//         />
-//       </Typography>
-//       <TextField
-//         label="Tipo de Incidencia"
-//         source="tipoDeIncidencia"
-//         record={item}
-//       />
-//       <Typography sx={{ mb: 1.5 }} color="text.secondary">
-//       <DateField
-//         label="Fecha de Creación"
-//         source="fechaDeCreacion"
-//         record={item}
-//       />
-//       </Typography>
-//     </CardContent>
-//     <EditButton basePath="/tickets" record={item} />
-//   </Card>
-// ))}
-// </div>
 

@@ -1,3 +1,8 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+
+//import from fs, mongodb and path
 import fs from "fs";
 import { MongoClient } from "mongodb";
 import path from "path";
@@ -6,8 +11,7 @@ const uri = "mongodb://127.0.0.1:27017";
 const dbName = "ticket_system";
 const collectionsFolder = "./collections";
 
-// Se leen todos los archivos que esten en la collectionsFolder y se meten en un
-// diccionario el nombre de cada archivo y su contenido
+//read the JSONs from the collections folder
 function readFiles() {
   const data = {};
 
@@ -22,9 +26,7 @@ function readFiles() {
 
   return data;
 }
-
-// Se eliminan las colecciones que ya hayan en la DB y usando el diccionario
-// data se crean las colecciones y se insertan los JSONs
+//import the data to the database
 async function importData() {
   const client = new MongoClient(uri);
   await client.connect();

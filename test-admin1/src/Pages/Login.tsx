@@ -1,3 +1,7 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+//imports from react, react-admin and proyect
 import * as React from "react";
 import { useState } from "react";
 import { useLogin, useNotify } from "react-admin";
@@ -5,37 +9,15 @@ import "./Login.css";
 import "./App.css";
 import { url } from "inspector";
 
-// export const Login: React.FC = () => {
-//   const login = useLogin();
-//   const notify = useNotify();
-
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [rememberMe, setRememberMe] = useState(false);
-  
-
-//   const handleSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     try {
-//       await login({ username: email, password: password });
-//       // .then(() => {
-//       //     window.location.href = '/tickets';
-//       // })
-//     } catch {
-//       notify("Invalid email or password");
-//     }
-//     // .catch(() => {
-//     //     notify('Invalid email or password');
-//     // });
-//   };
+//Login component for the admin page
 export const Login: React.FC = () => {
   const login = useLogin();
   const notify = useNotify();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userRole, setUserRole] = useState("");
 
+  // will call authProvider.login({ email, password })
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -52,7 +34,7 @@ export const Login: React.FC = () => {
     }
 };
 
-
+//Login component for the admin page
   return (
     <body className="body">
 
