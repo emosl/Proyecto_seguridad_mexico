@@ -1,3 +1,4 @@
+//imports from react-admin, materia ui, and react
 import {
   Admin,
   Resource,
@@ -13,7 +14,6 @@ import {
 import React from "react";
 import { dataProvider } from "./Providers/dataProvider";
 import { UserList } from "./Pages/users";
-import { PostList, PostEdit, PostCreate } from "./posts";
 import { TicketsCreate, TicketsList, TicketsEdit } from "./Pages/tickets";
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
@@ -28,8 +28,9 @@ import MyLayout from "./Layout/MyLayout";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "@jest/globals";
 
-// import { useCanAccess } from '@react-admin/ra-rbac';
-
+//App component for the admin page
+//Resources are the pages that are displayed on the admin page
+//Includes the dashboard and Tickets
 export const App = () => (
   <Admin
     layout={MyLayout}
@@ -40,11 +41,6 @@ export const App = () => (
     // dashboard={Dashboard}
     darkTheme={{ palette: { mode: "dark" } }}
   >
-    {/* <Resource
-      name="dashboard"
-      list={ListGuesser}
-      icon={UserIcon}
-    /> */}
      <Resource
       name="tickets"
       create={TicketsCreate}
@@ -53,15 +49,15 @@ export const App = () => (
     />
     <Resource
       name="dashboard"
-      list={Dashboard} // You should create a Dashboard component for rendering the dashboard content// Add an icon for the dashboard
-      options={{ label: "Dashboard" }} // Specify a label for the dashboard
+      list={Dashboard} 
+      options={{ label: "Dashboard" }} 
       icon={UserIcon}
     />
-   
-
   </Admin>
 );
 
+//Theme toggler for the admin page
+//Allows the user to switch between light and dark mode
 export const ThemeToggler = () => {
   const [theme, setTheme] = useTheme();
 

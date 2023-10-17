@@ -1,10 +1,11 @@
+//imports from react-admin,jest and react
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import MyLoginPage from '../Pages/MyLoginPage'; 
 import { AdminContext } from 'react-admin';
 
-
+//test for the MyLoginPage component
 test('se revisa que el input de email y de password esten definidos en el componente MyLoginPage', () => {
   const { container } = render(
     <AdminContext>
@@ -22,6 +23,7 @@ test('se revisa que el input de email y de password esten definidos en el compon
 
 });
 
+//test for the MyLoginPage component
 test('Se revisa que se despleiga el componente MyloginPage', () => {
     render(
     <AdminContext>
