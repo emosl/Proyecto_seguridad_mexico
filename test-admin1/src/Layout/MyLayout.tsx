@@ -1,10 +1,15 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+
+//imports from react, react-admin and material ui
 import * as React from 'react';
 import { forwardRef } from 'react';
 import { AppBar, Layout, UserMenu, useLogout } from 'react-admin';
 import { MenuItem } from '@mui/material';
 import ExitIcon from '@mui/icons-material/PowerSettingsNew';
 
-// It's important to pass the ref to allow Material UI to manage the keyboard navigation
+//MyLogoutButton component for the admin page
 export const MyLogoutButton = forwardRef((props, ref) => {
     const logout = useLogout();
     const handleClick = () => logout();
@@ -20,17 +25,21 @@ export const MyLogoutButton = forwardRef((props, ref) => {
     );
 });
 
+
+//MyUserMenu component for the admin page
 export const MyUserMenu: React.FC = () => (
     <UserMenu>
         <MyLogoutButton />
     </UserMenu>
 );
 
+//MyAppBar component for the admin page
 export const MyAppBar: React.FC = () => <AppBar userMenu={<UserMenu />} />;
 
 const MyLayout: React.FC = (props) => (
     <Layout {...props} appBar={MyAppBar} />
 );
 
+//export MyLayout component
 export default MyLayout;
 

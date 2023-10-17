@@ -1,14 +1,20 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+//imports from react-admin, materia ui, and react
 import * as React from 'react';
 import { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import { useLogin, useNotify, Notification } from 'react-admin';
 
+//MyLoginPage component for the admin page
 export const MyLoginPage: (React.FC) = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const login = useLogin();
     const notify = useNotify();
 
+    // will call authProvider.login({ email, password })
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // will call authProvider.login({ email, password })

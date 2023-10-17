@@ -1,3 +1,8 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+
+//imports from react, react-admin and material-ui
 import React from "react";
 import "./Dashboard.css";
 import Typography from "@mui/material/Typography";
@@ -9,11 +14,14 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
+
+//declarations of the component Dashboard for role Ejecutivo
 const DashboardEjecutivo = () => {
   const notify = useNotify();
   const refresh = useRefresh();
   const redirect = useRedirect();
 
+  //function to redirect to the tickets page
   const onSuccess = () => {
     notify("Moviendo a Tickets");
     redirect("/tickets");
@@ -73,11 +81,13 @@ const DashboardEjecutivo = () => {
 };
 
 
+//declarations of the component Dashboard for role Nacional
 const DashboardNacional = () => {
   const notify = useNotify();
   const refresh = useRefresh();
   const redirect = useRedirect();
 
+  //function to redirect to the tickets page
   const onSuccess = () => {
     notify("Moviendo a Tickets");
     redirect("/tickets");
@@ -137,11 +147,14 @@ const DashboardNacional = () => {
 };
 
 
+//declarations of the component Dashboard for role Coolaborador
+//this dashboard doesn't have any charts or metrics
 const DashboardCoolaborador = () => {
   const notify = useNotify();
   const refresh = useRefresh();
   const redirect = useRedirect();
 
+  //function to redirect to the tickets page
   const onSuccess = () => {
     notify("Moviendo a Tickets");
     redirect("/tickets");
@@ -195,6 +208,8 @@ const DashboardCoolaborador = () => {
     </Box>
   );
 };
+
+//exports
 
 export { DashboardCoolaborador };
 

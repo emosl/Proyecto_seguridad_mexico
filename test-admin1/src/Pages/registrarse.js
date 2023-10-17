@@ -4,6 +4,7 @@
 //imports from react
 import React, {useState} from "react";
 
+//declarations of the component Registrarse
 const Registrarse = () =>{
 
     const [datos, setDatos]=useState({

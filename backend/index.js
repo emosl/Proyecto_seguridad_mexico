@@ -1,3 +1,8 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+
+//imports from cors, express, mongodb, body-parser, bcrypt, jsonwebtoken, https and fs
 import cors from "cors";
 import express from "express";
 import { MongoClient } from "mongodb";
@@ -7,10 +12,7 @@ import jwt from "jsonwebtoken";
 import https from "https";
 import fs from "fs"; 
 
-// let db;
-// const app = express(); // create express app, executes functions
-// app.use(cors());
-// app.use(bodyParser.json());
+//declarations of the variables
 const uri = "mongodb+srv://Emo123:Emo123@ticketsystem.z9f1jjv.mongodb.net/";
 let db;
 const app = express();
@@ -18,6 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 const client = new MongoClient(uri);
 
+//function to connect to the database
 async function connectDB() {
   try {
     await client.connect();
@@ -30,18 +33,11 @@ async function connectDB() {
 connectDB();
 
 
-// async function log(sujeto, accion, objeto){
-//   log={};
-//   log["timestamp"]=new Date();
-//   log["sujeto"]=sujeto;
-//   log["accion"]=accion;
-//   log["objeto"]=objeto;
-//   await db.collection("Tickets").insertOne(log);
-// }
+// ENDPOINTS
 
-// Define el endpoint de login
+//POST for login
 app.post("/login", async (req, res) => {
-  // Recibe las credenciales del usuario
+  //Get User Credentials
   console.log(req.body);
   let user = req.body.usuario;
   let pass = req.body.contraseña;
@@ -52,6 +48,7 @@ app.post("/login", async (req, res) => {
   } else {
     bcrypt.genSalt(10, (error, salt) => {
       bcrypt.hash(pass, salt, async (error, hash) => {
+        //compare hashed password with the one in the database
         bcrypt.compare(pass, data.contraseña, (error, result) => {
           if (result) {
             let token = jwt.sign({ usuario: data.usuario }, "secretKey", {
@@ -75,6 +72,8 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//POST for register
+//not available in the frontend
 app.post("/registrarse", async (request, response) => {
   let user = request.body.usuario;
   let pass = request.body.contraseña;
@@ -86,6 +85,7 @@ app.post("/registrarse", async (request, response) => {
   let data = await db.collection("Users").findOne({ usuario: user });
   if (data == null) {
     try {
+      //encrypt password
       bcrypt.genSalt(10, (error, salt) => {
         bcrypt.hash(pass, salt, async (error, hash) => {
           let usuarioAgregar = {
@@ -108,6 +108,7 @@ app.post("/registrarse", async (request, response) => {
   }
 });
 
+//GET tests
 app.get("/test", async (req, res) => {
   let data = await db
     .collection("test")
@@ -120,17 +121,14 @@ app.get("/test", async (req, res) => {
   res.json(data);
 });
 
+//DELETE tests by id
 app.delete("/test/:id", async (req, res) => {
   console.log(req.params.id);
   let data = await db.collection("test").deleteOne({ id: req.params.id });
   res.json(data);
 });
 
-app.listen(8000, () => {
-  connectDB();
-  console.log("Server is running on port 8000.");
-}); // listen for requests on port 8000
-
+//GET for Tickets depending on the user role
 //getList, getMany, getManyReference
 app.get("/tickets", async (request, response) => {
   //check user token
@@ -144,15 +142,11 @@ app.get("/tickets", async (request, response) => {
       .findOne({ usuario: verify.usuario });
 
     let findUser = {};
-    // if (request.query.finished === "true") {
-    //   findUser.finished = true;
-    //   request.query.finished = true;
-    // } else if (request.query.finished === "false") {
-    //   findUser.finished = { $ne: true };
-    // }
     if (user.rol == "coolaborador") {
       findUser["usuario"] = verify.usuario;
     }
+
+    //BACKEND FILTERS
     // } else if (user.rol == "nacional") {
     //   findUser["usuario"] = verify.usuario;
     // } else if (user.rol == "ejecutivo") {
@@ -174,6 +168,7 @@ app.get("/tickets", async (request, response) => {
     //   findUser["clasificacion"] = request.query.clasificacion;
     // }
 
+    //sorting according to the query
     if ("_sort" in request.query) {
       let sortBy = request.query._sort;
       console.log("sortBy", sortBy);
@@ -211,6 +206,7 @@ app.get("/tickets", async (request, response) => {
       }
       response.json(data);
     } else {
+      //get all tickets
       let data = [];
       data = await db
         .collection("Tickets")
@@ -226,6 +222,8 @@ app.get("/tickets", async (request, response) => {
   }
 });
 
+
+//GET for Tickets depending on the user role and id
 //getOne
 app.get("/tickets/:id", async (request, response) => {
   try {
@@ -247,8 +245,6 @@ app.get("/tickets/:id", async (request, response) => {
       .find(parametersFind)
       .project({ _id: 0 })
       .toArray();
-    // console.log("DATA", data)
-    // log(verifiedToken.usuario, "ver objeto", request.params.id);
     response.json(data[0]);
     console.log("DATA[0]", data[0]);
   } catch {
@@ -258,8 +254,10 @@ app.get("/tickets/:id", async (request, response) => {
 });
 
 //create
+//POST for Tickets
 app.post("/tickets", async (request, response) => {
   try {
+    //check user token
     let token = request.get("Authentication");
     let verifiedToken = await jwt.verify(token, "secretKey");
     let addValue = request.body;
@@ -275,11 +273,14 @@ app.post("/tickets", async (request, response) => {
 });
 
 //update
+//PUT for Tickets
 app.put("/tickets/:id", async (request, response) => {
   try {
+    //check user token
     let token = request.get("Authentication");
     let verifiedToken = await jwt.verify(token, "secretKey");
     let addValue = request.body;
+    //modify ticket with id and addValue
     addValue["id"] = Number(request.params.id);
     let data = await db
       .collection("Tickets")
@@ -296,8 +297,10 @@ app.put("/tickets/:id", async (request, response) => {
 });
 
 //delete
+//DELETE for Tickets by id
 app.delete("/tickets/:id", async (request, response) => {
   try {
+    //check user token
     let token = request.get("Authentication");
     let verifiedToken = await jwt.verify(token, "secretKey");
     let data = await db
@@ -309,78 +312,16 @@ app.delete("/tickets/:id", async (request, response) => {
   }
 });
 
-https.createServer({cert: fs.readFileSync("./backend.cer"), key: fs.readFileSync("./backend.key")}, app).listen(3000, ()=>{
+//create a server that listens on port 8000
+https.createServer({cert: fs.readFileSync("./backend.cer"), key: fs.readFileSync("./backend.key")}, app).listen(8000, ()=>{
   connectDB();
   console.log("Servidor escuchando en puerto 8000")
 })
 
-// app.get("/dashboard", async (request, response) => {
-//   try {
-//     let token = request.get("Authentication");
-
-//     let verify = await jwt.verify(token, "secretKey");
-//     let user = await db
-//       .collection("Users")
-//       .findOne({ usuario: verify.usuario });
-
-//     let findUser = {};
-//     if (request.query.finished === "true") {
-//       findUser.finished = true;
-//     } else if (request.query.finished === "false") {
-//       findUser.finished = { $ne: true };
-//     }
-//     if (user.rol == "coolaborador") {
-//       findUser["usuario"] = verify.usuario;
-//     }
-//     if ("_sort" in request.query) {
-//       let sortBy = request.query._sort;
-//       console.log("sortBy", sortBy);
-//       let sortOrder = request.query._order == "ASC" ? 1 : -1;
-//       console.log("sortOrder", sortOrder);
-//       let start = Number(request.query._start);
-//       console.log("start", start);
-//       let end = Number(request.query._end);
-//       console.log("end", end);
-//       let sorter = {};
-//       sorter[sortBy] = sortOrder;
-//       console.log("sorter", sorter);
-//       console.log("findUser", findUser);
-//       let data = await db
-//         .collection("Tickets")
-//         .find(findUser)
-//         .sort(sorter)
-//         .project({ _id: 0 })
-//         .toArray();
-//       // console.log("data", data);
-//       response.set("Access-Control-Expose-Headers", "X-Total-Count");
-//       response.set("X-Total-Count", data.length);
-//       data = data.slice(start, end);
-//       response.json(data);
-//       console.log("data", data);
-//     } else if ("id" in request.query) {
-//       let data = [];
-//       for (let index = 0; index < request.query.id.length; index++) {
-//         let dataObtain = await db
-//           .collection("Users")
-//           .find({ id: Number(request.query.id[index]) })
-//           .project({ _id: 0 })
-//           .toArray();
-//         data = await data.concat(dataObtain);
-//       }
-//       response.json(data);
-//     } else {
-//       let data = [];
-//       data = await db
-//         .collection("Tickets")
-//         .find(request.query)
-//         .project({ _id: 0 })
-//         .toArray();
-//       response.set("Access-Control-Expose-Headers", "X-Total-Count");
-//       response.set("X-Total-Count", data.length);
-//       response.json(data);
-//     }
-//   } catch {
-//     response.sendStatus(401);
-//   }
-// });
+//Port 8000
+//Conect to the database
+app.listen(8000, () => {
+  connectDB();
+  console.log("Server is running on port 8000.");
+}); // listen for requests on port 8000
 
