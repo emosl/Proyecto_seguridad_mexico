@@ -1,3 +1,7 @@
+//Equipo 1: Emilia Salazar, Ian Holender, Fernanda Osorio, Rafael Blanga, Martin Palomares
+//Octubre 2023
+//Integración de seguridad informática en redes y sistemas de software 
+//imports from react
 import React, {useState} from "react";
 
 const Registrarse = () =>{
