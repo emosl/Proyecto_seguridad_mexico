@@ -9,6 +9,11 @@ export default defineConfig({
     },
     server: {
         host: true,
+        https: {
+            key: './frontend.key',
+            cert: './frontend.cer'
+        }
+        
     },
     base: './',
 });
