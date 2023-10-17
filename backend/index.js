@@ -313,7 +313,7 @@ app.delete("/tickets/:id", async (request, response) => {
 });
 
 //create a server that listens on port 8000
-https.createServer({cert: fs.readFileSync("./backend.cer"), key: fs.readFileSync("./backend.key")}, app).listen(8000, ()=>{
+https.createServer({cert: fs.readFileSync("./backend.cer"), key: fs.readFileSync("./backend.key")}, app).listen(3000, ()=>{
   connectDB();
   console.log("Servidor escuchando en puerto 8000")
 })
