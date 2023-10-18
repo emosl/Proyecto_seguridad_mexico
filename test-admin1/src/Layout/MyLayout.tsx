@@ -19,6 +19,7 @@ import ExitIcon from "@mui/icons-material/PowerSettingsNew";
 import { authProvider } from "../Providers/authProvider";
 import { blue } from "@mui/material/colors";
 import logo from "../Assets/FXM_AB_SF.png"
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 //MyLogoutButton component for the admin page
 export const MyLogoutButton = forwardRef((props, ref) => {
@@ -62,7 +63,7 @@ const MyRefreshButton = () => {
       // // It's important to pass the props to allow Material UI to manage the keyboard navigation
       // {...props}
     >
-      <ExitIcon /> Refresh
+      <RefreshIcon/> Refresh
     </MenuItem>
   );
 };
