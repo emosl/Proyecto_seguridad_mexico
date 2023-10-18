@@ -24,7 +24,6 @@ import { Dashboard } from "./Pages/Dashboard";
 import { authProvider } from "./Providers/authProvider";
 import { i18nProvider } from "./Providers/i18nProvider";
 import { Button } from "@mui/material";
-import { MyAppBar } from "./components/MyAppBar";
 //import {MyLoginPage} from "./components/MyLoginPage";
 import Login from "./Pages/Login";
 import MyLayout from "./Layout/MyLayout";
@@ -61,12 +60,4 @@ export const App = () => (
 
 //Theme toggler for the admin page
 //Allows the user to switch between light and dark mode
-export const ThemeToggler = () => {
-  const [theme, setTheme] = useTheme();
 
-  return (
-    <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-      {theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-    </Button>
-  );
-};
