@@ -18,6 +18,7 @@ import { MenuItem } from "@mui/material";
 import ExitIcon from "@mui/icons-material/PowerSettingsNew";
 import { authProvider } from "../Providers/authProvider";
 import { blue } from "@mui/material/colors";
+import logo from "../Assets/FXM_AB_SF.png"
 
 //MyLogoutButton component for the admin page
 export const MyLogoutButton = forwardRef((props, ref) => {
@@ -77,7 +78,10 @@ export const MyUserMenu: React.FC = () => (
 
 //MyAppBar component for the admin page
 export const MyAppBar = () => (
-  <AppBar userMenu={<MyUserMenu />} color="transparent" />
+  <AppBar userMenu={<MyUserMenu />} color="transparent">
+    <img src={logo} alt="logo" width="100" height="50" />
+    <span style={{ flex: 1 }} />
+  </AppBar>
 );
 
 const MyLayout: React.FC = (props) => <Layout {...props} appBar={MyAppBar} />;
